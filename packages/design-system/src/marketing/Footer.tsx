@@ -38,8 +38,8 @@ export function Footer({ brand, description, columns = [], copyright, social }: 
             <Col key={i} xs={12} md={Math.max(4, Math.floor(16 / Math.max(columns.length, 1)))}>
               <Title level={5}>{col.title}</Title>
               <Space direction="vertical">
-                {col.links.map((l) => (
-                  <Link key={l.href} href={l.href}>
+                {col.links.map((l, li) => (
+                  <Link key={`${l.label}-${li}`} href={l.href}>
                     {l.label}
                   </Link>
                 ))}

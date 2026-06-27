@@ -1,0 +1,10 @@
+{
+  "extends": "@repo/typescript-config/react-library.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "noEmit": true,
+    "types": ["node"]
+  },
+  "include": [".storybook", "stories", "*.ts"],
+  "exclude": ["node_modules", "storybook-static"]
+}

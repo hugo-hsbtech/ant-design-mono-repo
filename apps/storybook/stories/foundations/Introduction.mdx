@@ -1,0 +1,28 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Foundations/Introduction" />
+
+# Plataforma — Catálogo de UI
+
+Este é o catálogo central da plataforma. Tudo aqui é construído **sobre o Ant Design v5**
+e tematizado por uma única fonte de marca (`@repo/brand-tokens`).
+
+## Como o catálogo é organizado
+
+- **Foundations** — os tokens da marca aplicados: cor, tipografia, espaçamento, elevação, motion.
+- **Primitives** — componentes do Ant Design expostos pela fachada `@repo/design-system`.
+- **Patterns** — compostos próprios reutilizáveis (AppShell, DataTable, PageHeader…).
+- **Marketing** — blocos de landing/site (Hero, Pricing, CTA…).
+- **Product** — compostos específicos do app logado (catalogados com mocks).
+
+## Tema light/dark
+
+Use o seletor **Theme** na toolbar para alternar entre claro e escuro. Todo o catálogo
+re-tematiza porque os componentes leem os tokens do `ConfigProvider` — a mesma mecânica
+das três frentes (dashboard, landing, site).
+
+## Definition of done de um componente
+
+Todo componente catalogado traz: componente tipado (sem hardcode de tokens), story com
+variantes via `args`, teste mínimo (render + interação onde houver), aprovação no a11y
+(axe) e uma nota de documentação.
