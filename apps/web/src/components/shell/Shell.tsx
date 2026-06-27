@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { signOut } from 'next-auth/react';
 import { AppShell, Flex, Menu, Space, Tag } from '@repo/design-system';
 import {
@@ -28,8 +28,15 @@ const SEED_NOTIFICATIONS: NotificationItem[] = [
 
 export function Shell({ value, children }: { value: OrgContextValue; children: React.ReactNode }) {
   const router = useRouter();
+  const pathname = usePathname();
   const { org, orgs, role, user } = value;
   const [notifications, setNotifications] = useState(SEED_NOTIFICATIONS);
+
+  const selectedKey = pathname.endsWith('/members')
+    ? 'members'
+    : pathname.endsWith('/settings')
+      ? 'settings'
+      : 'projects';
 
   const products = [
     { key: 'dashboard', name: 'Dashboard', icon: <AppstoreOutlined />, href: `/${org.slug}` },
@@ -63,15 +70,17 @@ export function Shell({ value, children }: { value: OrgContextValue; children: R
   const sidebar = (
     <Menu
       mode="inline"
-      selectedKeys={['projects']}
+      selectedKeys={[selectedKey]}
       style={{ borderInlineEnd: 'none' }}
       onClick={({ key }) => {
         if (key === 'projects') router.push(`/${org.slug}`);
+        if (key === 'members') router.push(`/${org.slug}/members`);
+        if (key === 'settings') router.push(`/${org.slug}/settings`);
       }}
       items={[
         { key: 'projects', icon: <AppstoreOutlined />, label: 'Projetos' },
-        { key: 'members', icon: <TeamOutlined />, label: 'Membros', disabled: true },
-        { key: 'settings', icon: <SettingOutlined />, label: 'Configurações', disabled: true },
+        { key: 'members', icon: <TeamOutlined />, label: 'Membros' },
+        { key: 'settings', icon: <SettingOutlined />, label: 'Configurações' },
       ]}
     />
   );

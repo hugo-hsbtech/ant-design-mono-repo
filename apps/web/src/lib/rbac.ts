@@ -6,6 +6,7 @@ export type Permission =
   | 'project:delete'
   | 'member:read'
   | 'member:invite'
+  | 'member:update'
   | 'member:remove'
   | 'org:update';
 
@@ -16,6 +17,7 @@ const PERMISSIONS: Record<Permission, Role[]> = {
   'project:delete': ['owner', 'admin'],
   'member:read': ['owner', 'admin', 'member', 'viewer'],
   'member:invite': ['owner', 'admin'],
+  'member:update': ['owner', 'admin'],
   'member:remove': ['owner', 'admin'],
   'org:update': ['owner', 'admin'],
 };

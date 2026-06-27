@@ -25,3 +25,10 @@ export interface Project {
   name: string;
   status: 'active' | 'archived';
 }
+
+export interface PendingInvite {
+  id: string;
+  orgId: string;
+  email: string;
+  role: Role;
+}
