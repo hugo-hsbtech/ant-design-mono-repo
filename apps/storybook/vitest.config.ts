@@ -16,14 +16,16 @@ export default defineConfig({
       provider: 'playwright',
       headless: true,
       instances: [
+        // CI installs the matching browser via `playwright install`. Set
+        // CHROMIUM_BIN locally to reuse a pre-installed binary instead.
+        // `launch` is valid at runtime for the playwright provider but absent
+        // from this vitest version's instance type, so we cast.
         {
           browser: 'chromium',
-          // CI installs the matching browser via `playwright install`. Set
-          // CHROMIUM_BIN locally to reuse a pre-installed binary instead.
-          launch: process.env.CHROMIUM_BIN
-            ? { executablePath: process.env.CHROMIUM_BIN }
-            : undefined,
-        },
+          ...(process.env.CHROMIUM_BIN
+            ? { launch: { executablePath: process.env.CHROMIUM_BIN } }
+            : {}),
+        } as { browser: 'chromium' },
       ],
     },
     setupFiles: [join(dir, '.storybook/vitest.setup.ts')],

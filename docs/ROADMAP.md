@@ -7,7 +7,7 @@ Estado de implementação das fases descritas no PRD.
 | 0 | Bootstrap do monorepo (pnpm + Turborepo + TS + ESLint/Prettier + Changesets + CI) | ✅ |
 | 1 | `brand-tokens` (source.ts → ThemeConfig light/dark + CSS vars) | ✅ |
 | 2 | `design-system` (fachada antd + ThemeProvider + patterns + marketing) | ✅ |
-| 3 | `apps/storybook` (Storybook 9 + nextjs-vite; foundations + catálogo) | ✅ (foundations + catálogo representativo; cobertura cresce incrementalmente) |
+| 3 | `apps/storybook` (Storybook 9 + nextjs-vite; foundations + catálogo) | ✅ Foundations + 49 primitivos antd + patterns + marketing. 265 testes de componente (render + interação + axe) verdes em Chromium real. |
 | 4 | `apps/web` (Next.js + AntdRegistry + App do antd + tema SSR via cookie + providers) | ✅ (shell + providers; Auth.js como stub plugável) |
 | 5 | Shell (TopNav, Sidebar, AppSwitcher, OrgSwitcher, NotificationCenter, ThemeToggle) | ✅ |
 | 6 | CRUD de exemplo + gestão de membros da org | 🚧 CRUD de exemplo presente; membros parcial |
@@ -28,3 +28,9 @@ Estado de implementação das fases descritas no PRD.
   (ver CVE-2025-29927 — não confiar só no middleware).
 - A cobertura total do catálogo (60+ componentes antd) cresce seguindo a receita em
   `apps/storybook/stories/` (ver §6.3 do PRD: componente + story + teste + a11y + doc).
+- **antd v5 + React 19:** o console emite um aviso de compatibilidade. Os apps devem
+  aplicar `@ant-design/v5-patch-for-react-19` (a definir junto da decisão §11.1 sobre
+  versão-base do antd). No catálogo é apenas um aviso — render/testes passam.
+- **Storybook Test local:** o CI roda `playwright install` e o teste roda direto.
+  Localmente, com um Chromium pré-instalado, use `CHROMIUM_BIN=/caminho/chrome
+  pnpm --filter @repo/storybook test:storybook` (o `vitest.config.ts` lê esse env).
