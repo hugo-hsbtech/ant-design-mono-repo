@@ -1,0 +1,14 @@
+{
+  "mode": {
+    "bgBase": {
+      "$type": "color",
+      "$value": "#141414",
+      "$extensions": { "com.plataforma.antd": { "token": "colorBgBase" } }
+    },
+    "textBase": {
+      "$type": "color",
+      "$value": "#FFFFFF",
+      "$extensions": { "com.plataforma.antd": { "token": "colorTextBase" } }
+    }
+  }
+}

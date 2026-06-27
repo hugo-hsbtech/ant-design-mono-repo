@@ -1,6 +1,7 @@
 import js from '@eslint/js';
 import tseslint from 'typescript-eslint';
 import prettier from 'eslint-config-prettier';
+import globals from 'globals';
 
 /** Shared flat ESLint config for all packages. */
 export const baseConfig = [
@@ -20,7 +21,21 @@ export const baseConfig = [
     },
   },
   {
-    ignores: ['dist/**', '.next/**', 'storybook-static/**', '.turbo/**', 'coverage/**'],
+    // Build scripts and config files run in Node.
+    files: ['**/*.{mjs,cjs}', '**/*.config.{js,ts,mjs,cjs}', 'scripts/**'],
+    languageOptions: {
+      globals: { ...globals.node },
+    },
+  },
+  {
+    ignores: [
+      'dist/**',
+      '.next/**',
+      'storybook-static/**',
+      '.turbo/**',
+      'coverage/**',
+      '**/__generated__/**',
+    ],
   },
 ];
 

@@ -1,0 +1,42 @@
+{
+  "color": {
+    "$type": "color",
+    "brand": {
+      "primary": {
+        "$value": "#0066CC",
+        "$description": "Cor primária da marca — seed de onde o antd deriva toda a paleta.",
+        "$extensions": { "com.plataforma.antd": { "token": "colorPrimary" } }
+      }
+    },
+    "success": {
+      "$value": "#16A34A",
+      "$extensions": { "com.plataforma.antd": { "token": "colorSuccess" } }
+    },
+    "warning": {
+      "$value": "#D97706",
+      "$extensions": { "com.plataforma.antd": { "token": "colorWarning" } }
+    },
+    "error": {
+      "$value": "#DC2626",
+      "$extensions": { "com.plataforma.antd": { "token": "colorError" } }
+    },
+    "info": {
+      "$value": "#0066CC",
+      "$extensions": { "com.plataforma.antd": { "token": "colorInfo" } }
+    },
+    "neutral": {
+      "0": { "$value": "#FFFFFF" },
+      "50": { "$value": "#FAFAFA" },
+      "100": { "$value": "#F5F5F5" },
+      "200": { "$value": "#E5E5E5" },
+      "300": { "$value": "#D4D4D4" },
+      "400": { "$value": "#A3A3A3" },
+      "500": { "$value": "#737373" },
+      "600": { "$value": "#525252" },
+      "700": { "$value": "#404040" },
+      "800": { "$value": "#262626" },
+      "900": { "$value": "#171717" },
+      "1000": { "$value": "#000000" }
+    }
+  }
+}

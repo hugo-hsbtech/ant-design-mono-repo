@@ -1,0 +1,45 @@
+{
+  "font": {
+    "family": {
+      "base": {
+        "$type": "fontFamily",
+        "$value": ["Inter", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "sans-serif"],
+        "$extensions": { "com.plataforma.antd": { "token": "fontFamily" } }
+      },
+      "mono": {
+        "$type": "fontFamily",
+        "$value": ["SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", "monospace"],
+        "$extensions": { "com.plataforma.antd": { "token": "fontFamilyCode" } }
+      }
+    },
+    "size": {
+      "$type": "number",
+      "sm": { "$value": 12 },
+      "base": {
+        "$value": 14,
+        "$extensions": { "com.plataforma.antd": { "token": "fontSize" } }
+      },
+      "lg": {
+        "$value": 16,
+        "$extensions": { "com.plataforma.antd": { "token": "fontSizeLG" } }
+      },
+      "xl": { "$value": 20 },
+      "heading": { "$value": 38 }
+    },
+    "weight": {
+      "$type": "number",
+      "regular": { "$value": 400 },
+      "medium": { "$value": 500 },
+      "semibold": { "$value": 600 },
+      "bold": { "$value": 700 }
+    },
+    "lineHeight": {
+      "$type": "number",
+      "base": {
+        "$value": 1.5715,
+        "$extensions": { "com.plataforma.antd": { "token": "lineHeight" } }
+      },
+      "heading": { "$value": 1.2 }
+    }
+  }
+}

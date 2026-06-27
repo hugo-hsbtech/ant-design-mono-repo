@@ -1,0 +1,15 @@
+{
+  "radius": {
+    "$type": "number",
+    "none": { "$value": 0 },
+    "sm": { "$value": 4 },
+    "base": {
+      "$value": 6,
+      "$description": "Raio padrão da marca — seed borderRadius do antd.",
+      "$extensions": { "com.plataforma.antd": { "token": "borderRadius" } }
+    },
+    "lg": { "$value": 8 },
+    "xl": { "$value": 12 },
+    "full": { "$value": 9999 }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "motion": {
+    "duration": {
+      "$type": "duration",
+      "fast": {
+        "$value": "0.1s",
+        "$extensions": { "com.plataforma.antd": { "token": "motionDurationFast" } }
+      },
+      "mid": {
+        "$value": "0.2s",
+        "$extensions": { "com.plataforma.antd": { "token": "motionDurationMid" } }
+      },
+      "slow": {
+        "$value": "0.3s",
+        "$extensions": { "com.plataforma.antd": { "token": "motionDurationSlow" } }
+      }
+    },
+    "easing": {
+      "$type": "cubicBezier",
+      "standard": { "$value": "cubic-bezier(0.645, 0.045, 0.355, 1)" }
+    }
+  }
+}

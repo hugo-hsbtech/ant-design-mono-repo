@@ -1,0 +1,23 @@
+{
+  "component": {
+    "button": {
+      "controlHeight": {
+        "$type": "number",
+        "$value": 40,
+        "$extensions": { "com.plataforma.antd": { "component": "Button", "token": "controlHeight" } }
+      },
+      "fontWeight": {
+        "$type": "number",
+        "$value": 500,
+        "$extensions": { "com.plataforma.antd": { "component": "Button", "token": "fontWeight" } }
+      }
+    },
+    "card": {
+      "borderRadius": {
+        "$type": "number",
+        "$value": 8,
+        "$extensions": { "com.plataforma.antd": { "component": "Card", "token": "borderRadiusLG" } }
+      }
+    }
+  }
+}
