@@ -8,11 +8,11 @@ Estado de implementação das fases descritas no PRD.
 | 1 | `brand-tokens` (source.ts → ThemeConfig light/dark + CSS vars) | ✅ |
 | 2 | `design-system` (fachada antd + ThemeProvider + patterns + marketing) | ✅ |
 | 3 | `apps/storybook` (Storybook 9 + nextjs-vite; foundations + catálogo) | ✅ Foundations + 49 primitivos antd + patterns + marketing. 265 testes de componente (render + interação + axe) verdes em Chromium real. |
-| 4 | `apps/web` (Next.js + AntdRegistry + App do antd + tema SSR via cookie + providers) | ✅ (shell + providers; Auth.js como stub plugável) |
-| 5 | Shell (TopNav, Sidebar, AppSwitcher, OrgSwitcher, NotificationCenter, ThemeToggle) | ✅ |
-| 6 | CRUD de exemplo + gestão de membros da org | 🚧 CRUD de exemplo presente; membros parcial |
-| 7 | `apps/landing` + `apps/site` (blocos de marketing + layouts) | ✅ scaffold + blocos |
-| 8 | Hardening (cobertura de testes, E2E, a11y/axe, responsividade, CI/release) | 🚧 bases configuradas; cobertura cresce |
+| 4 | `apps/web` (Next.js + AntdRegistry + App do antd + tema SSR via cookie + providers) | 🟡 Scaffold mínimo: AntdRegistry, ThemeProvider (App do antd), tema SSR via cookie sem flash. Auth/multi-tenant/RBAC pendentes (fora do escopo desta sessão — E1–E3). Build de produção verde. |
+| 5 | Shell (TopNav, Sidebar, AppSwitcher, OrgSwitcher, NotificationCenter, ThemeToggle) | 🟡 AppShell + Menu lateral + UserMenu (dropdown) + ThemeToggle presentes. AppSwitcher/OrgSwitcher/NotificationCenter pendentes. |
+| 6 | CRUD de exemplo + gestão de membros da org | 🟡 CRUD de exemplo (Projetos) no dashboard via DataTable + FormModal + Popconfirm. Membros/org settings pendentes. |
+| 7 | `apps/landing` + `apps/site` (blocos de marketing + layouts) | 🟡 Scaffolds que compõem os blocos de marketing; ambos buildam estáticos. |
+| 8 | Hardening (cobertura de testes, E2E, a11y/axe, responsividade, CI/release) | 🟡 Bases prontas: 266 testes de componente (axe incluso) + CI em camadas. E2E Playwright pendente. |
 
 ## Decisões em aberto (do PRD §11.1)
 
