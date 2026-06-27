@@ -1,0 +1,17 @@
+{
+  "color": {
+    "$type": "color",
+    "brand": {
+      "primary": {
+        "$value": "#0066CC",
+        "$description": "Cor primária da marca — exportada do Figma."
+      }
+    }
+  },
+  "radius": {
+    "$type": "number",
+    "base": {
+      "$value": 6
+    }
+  }
+}

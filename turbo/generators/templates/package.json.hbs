@@ -1,12 +1,13 @@
 {
-  "name": "site",
+  "name": "{{ name }}",
   "version": "0.0.0",
   "private": true,
   "type": "module",
+  "description": "{{ description }}",
   "scripts": {
-    "dev": "next dev -p 3002",
+    "dev": "next dev -p 3003",
     "build": "next build",
-    "start": "next start -p 3002",
+    "start": "next start -p 3003",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "clean": "rimraf .next .turbo"
@@ -16,11 +17,9 @@
     "@ant-design/nextjs-registry": "^1.0.2",
     "@repo/brand-tokens": "workspace:*",
     "@repo/design-system": "workspace:*",
-    "@repo/i18n": "workspace:*",
     "@repo/utils": "workspace:*",
     "antd": "^5.22.5",
     "next": "^15.1.3",
-    "next-intl": "^3.26.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },

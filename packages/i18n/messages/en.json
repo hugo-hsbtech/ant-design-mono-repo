@@ -1,0 +1,26 @@
+{
+  "common": {
+    "appName": "Plataforma"
+  },
+  "auth": {
+    "title": "Sign in",
+    "emailLabel": "Email",
+    "submit": "Sign in",
+    "devHint": "Development environment — use {example}.",
+    "invalidEmail": "Enter a valid email",
+    "unknownEmail": "Email not recognized. Try {example}"
+  },
+  "nav": {
+    "projects": "Projects",
+    "members": "Members",
+    "settings": "Settings",
+    "profile": "Profile",
+    "preferences": "Preferences",
+    "logout": "Sign out",
+    "switchOrg": "Switch organization",
+    "switchProduct": "Switch product",
+    "notifications": "Notifications",
+    "userMenu": "User menu",
+    "language": "Language"
+  }
+}

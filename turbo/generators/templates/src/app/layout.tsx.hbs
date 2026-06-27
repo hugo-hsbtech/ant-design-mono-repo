@@ -1,7 +1,5 @@
 import type { Metadata } from 'next';
 import { cookies } from 'next/headers';
-import { NextIntlClientProvider } from 'next-intl';
-import { getLocale, getMessages } from 'next-intl/server';
 import { AntdRegistry } from '@ant-design/nextjs-registry';
 import type { ThemeMode } from '@repo/design-system';
 import { Providers } from './providers';
@@ -9,25 +7,24 @@ import { Providers } from './providers';
 import '@repo/brand-tokens/css';
 
 export const metadata: Metadata = {
-  title: 'Plataforma — Dashboard',
-  description: 'Dashboard SaaS sobre Ant Design v5, na identidade da marca.',
+  title: '{{ name }}',
+  description: '{{ description }}',
 };
+
+// Hoisted to avoid inline-object braces (keeps the template handlebars-safe).
+const bodyStyle = { margin: 0 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   // Read the theme preference on the server to avoid a flash on first paint.
   const cookieStore = await cookies();
   const mode: ThemeMode = cookieStore.get('theme')?.value === 'dark' ? 'dark' : 'light';
-  const locale = await getLocale();
-  const messages = await getMessages();
 
   return (
-    <html lang={locale} data-theme={mode} suppressHydrationWarning>
-      <body style={{ margin: 0 }}>
+    <html lang="pt-BR" data-theme={mode} suppressHydrationWarning>
+      <body style={bodyStyle}>
         {/* AntdRegistry extracts antd's first-screen styles during SSR. */}
         <AntdRegistry>
-          <NextIntlClientProvider locale={locale} messages={messages}>
-            <Providers initialMode={mode}>{children}</Providers>
-          </NextIntlClientProvider>
+          <Providers initialMode={mode}>{children}</Providers>
         </AntdRegistry>
       </body>
     </html>

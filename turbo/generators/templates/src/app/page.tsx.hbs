@@ -1,0 +1,21 @@
+import { Typography, Space } from '@repo/design-system';
+
+const { Title, Paragraph, Text } = Typography;
+
+const wrapperStyle = { maxWidth: 720, margin: '0 auto', padding: '96px 24px' };
+
+export default function HomePage() {
+  return (
+    <main style={wrapperStyle}>
+      <Space direction="vertical" size="large">
+        <Text type="secondary">Plataforma de UI</Text>
+        <Title>{{ name }}</Title>
+        <Paragraph>{{ description }}</Paragraph>
+        <Paragraph type="secondary">
+          Este app já herda a marca, o design-system, o tooling e o CI da plataforma. Importe
+          componentes de <Text code>@repo/design-system</Text> e comece a construir.
+        </Paragraph>
+      </Space>
+    </main>
+  );
+}

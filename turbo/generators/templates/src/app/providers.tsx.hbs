@@ -1,8 +1,6 @@
 'use client';
 import { ThemeProvider } from '@repo/design-system';
 import type { ThemeMode } from '@repo/design-system';
-import { useLocale } from 'next-intl';
-import { antdLocale } from '@repo/i18n';
 import { useCallback } from 'react';
 
 const ONE_YEAR = 60 * 60 * 24 * 365;
@@ -10,8 +8,7 @@ const ONE_YEAR = 60 * 60 * 24 * 365;
 /**
  * Client providers wrapper. Seeds the ThemeProvider with the mode resolved on
  * the server (from the cookie) — so the first paint already matches and there
- * is no light→dark flash — and persists toggles back to the cookie. Also wires
- * the antd `ConfigProvider` locale from the active next-intl locale.
+ * is no light→dark flash — and persists toggles back to the cookie.
  */
 export function Providers({
   children,
@@ -20,13 +17,12 @@ export function Providers({
   children: React.ReactNode;
   initialMode: ThemeMode;
 }) {
-  const locale = useLocale();
   const persist = useCallback((mode: ThemeMode) => {
     document.cookie = `theme=${mode}; path=/; max-age=${ONE_YEAR}; samesite=lax`;
   }, []);
 
   return (
-    <ThemeProvider defaultMode={initialMode} onModeChange={persist} locale={antdLocale(locale)}>
+    <ThemeProvider defaultMode={initialMode} onModeChange={persist}>
       {children}
     </ThemeProvider>
   );

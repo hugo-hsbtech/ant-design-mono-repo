@@ -18,6 +18,7 @@
   "files": ["dist", "src"],
   "scripts": {
     "build:tokens": "node ./scripts/build-tokens.mjs",
+    "tokens:import": "node ./scripts/import-figma-tokens.mjs",
     "build": "pnpm build:tokens && tsup",
     "dev": "pnpm build:tokens && tsup --watch",
     "lint": "eslint .",

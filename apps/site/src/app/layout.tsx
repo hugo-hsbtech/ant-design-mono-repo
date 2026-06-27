@@ -1,4 +1,6 @@
 import type { Metadata } from 'next';
+import { NextIntlClientProvider } from 'next-intl';
+import { getLocale, getMessages } from 'next-intl/server';
 import { AntdRegistry } from '@ant-design/nextjs-registry';
 import { Providers } from './providers';
 import '@repo/brand-tokens/css';
@@ -8,12 +10,16 @@ export const metadata: Metadata = {
   description: 'Site institucional na identidade da marca.',
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const locale = await getLocale();
+  const messages = await getMessages();
   return (
-    <html lang="pt-BR">
+    <html lang={locale}>
       <body style={{ margin: 0 }}>
         <AntdRegistry>
-          <Providers>{children}</Providers>
+          <NextIntlClientProvider locale={locale} messages={messages}>
+            <Providers>{children}</Providers>
+          </NextIntlClientProvider>
         </AntdRegistry>
       </body>
     </html>

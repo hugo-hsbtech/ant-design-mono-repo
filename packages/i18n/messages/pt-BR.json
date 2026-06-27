@@ -1,0 +1,26 @@
+{
+  "common": {
+    "appName": "Plataforma"
+  },
+  "auth": {
+    "title": "Entrar",
+    "emailLabel": "E-mail",
+    "submit": "Entrar",
+    "devHint": "Ambiente de desenvolvimento — use {example}.",
+    "invalidEmail": "Informe um e-mail válido",
+    "unknownEmail": "E-mail não reconhecido. Tente {example}"
+  },
+  "nav": {
+    "projects": "Projetos",
+    "members": "Membros",
+    "settings": "Configurações",
+    "profile": "Perfil",
+    "preferences": "Preferências",
+    "logout": "Sair",
+    "switchOrg": "Trocar de organização",
+    "switchProduct": "Trocar de produto",
+    "notifications": "Notificações",
+    "userMenu": "Menu do usuário",
+    "language": "Idioma"
+  }
+}

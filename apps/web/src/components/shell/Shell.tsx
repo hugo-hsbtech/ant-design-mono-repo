@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { signOut } from 'next-auth/react';
 import { AppShell, Flex, Menu, Space, Tag } from '@repo/design-system';
 import {
@@ -12,6 +13,7 @@ import {
 } from '@ant-design/icons';
 import { OrgProvider, type OrgContextValue } from '@/lib/org-context';
 import { ThemeToggle } from '@/components/ThemeToggle';
+import { LanguageSwitcher } from '@/components/LanguageSwitcher';
 import { ProductBranding } from '@/components/product/ProductBranding';
 import { OrgSwitcher } from '@/components/product/OrgSwitcher';
 import { AppSwitcher } from '@/components/product/AppSwitcher';
@@ -29,6 +31,7 @@ const SEED_NOTIFICATIONS: NotificationItem[] = [
 export function Shell({ value, children }: { value: OrgContextValue; children: React.ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
+  const t = useTranslations('nav');
   const { org, orgs, role, user } = value;
   const [notifications, setNotifications] = useState(SEED_NOTIFICATIONS);
 
@@ -57,6 +60,7 @@ export function Shell({ value, children }: { value: OrgContextValue; children: R
           items={notifications}
           onMarkAllRead={() => setNotifications((prev) => prev.map((n) => ({ ...n, read: true })))}
         />
+        <LanguageSwitcher />
         <ThemeToggle />
         <UserMenu
           name={user.name ?? 'Usuário'}
@@ -78,9 +82,9 @@ export function Shell({ value, children }: { value: OrgContextValue; children: R
         if (key === 'settings') router.push(`/${org.slug}/settings`);
       }}
       items={[
-        { key: 'projects', icon: <AppstoreOutlined />, label: 'Projetos' },
-        { key: 'members', icon: <TeamOutlined />, label: 'Membros' },
-        { key: 'settings', icon: <SettingOutlined />, label: 'Configurações' },
+        { key: 'projects', icon: <AppstoreOutlined />, label: t('projects') },
+        { key: 'members', icon: <TeamOutlined />, label: t('members') },
+        { key: 'settings', icon: <SettingOutlined />, label: t('settings') },
       ]}
     />
   );
