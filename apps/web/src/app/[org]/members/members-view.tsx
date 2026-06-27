@@ -1,5 +1,6 @@
 'use client';
 import { useState, useTransition } from 'react';
+import { useRouter } from 'next/navigation';
 import {
   App,
   Button,
@@ -51,6 +52,7 @@ export function MembersView({
   invites: PendingInvite[];
 }) {
   const { message } = App.useApp();
+  const router = useRouter();
   const [inviting, setInviting] = useState(false);
   const [, startTransition] = useTransition();
 
@@ -64,6 +66,7 @@ export function MembersView({
     startTransition(async () => {
       try {
         await fn();
+        router.refresh();
         message.success(ok);
       } catch {
         message.error('Ação não permitida');
@@ -73,6 +76,7 @@ export function MembersView({
   const handleInvite = async ({ email, role: r }: { email: string; role: Role }) => {
     try {
       const res = await inviteMemberAction(slug, email, r);
+      router.refresh();
       message.success(res.status === 'added' ? 'Membro adicionado' : 'Convite enviado');
       setInviting(false);
     } catch {

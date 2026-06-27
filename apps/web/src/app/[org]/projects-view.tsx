@@ -1,5 +1,6 @@
 'use client';
 import { useState, useTransition } from 'react';
+import { useRouter } from 'next/navigation';
 import {
   App,
   Button,
@@ -26,6 +27,7 @@ export function ProjectsView({
   projects: Project[];
 }) {
   const { message } = App.useApp();
+  const router = useRouter();
   const [creating, setCreating] = useState(false);
   const [query, setQuery] = useState('');
   const [, startTransition] = useTransition();
@@ -37,6 +39,7 @@ export function ProjectsView({
   const handleCreate = async ({ name }: { name: string }) => {
     try {
       await createProjectAction(slug, name);
+      router.refresh();
       message.success('Projeto criado');
       setCreating(false);
     } catch {
@@ -48,6 +51,7 @@ export function ProjectsView({
     startTransition(async () => {
       try {
         await deleteProjectAction(slug, id);
+        router.refresh();
         message.success('Projeto removido');
       } catch {
         message.error('Você não tem permissão para remover projetos');

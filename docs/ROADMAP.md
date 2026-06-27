@@ -12,7 +12,7 @@ Estado de implementação das fases descritas no PRD.
 | 5 | Shell (TopNav, Sidebar, AppSwitcher, OrgSwitcher, NotificationCenter, ThemeToggle) | ✅ AppShell + ProductBranding + AppSwitcher (waffle) + OrgSwitcher + NotificationCenter + UserMenu + ThemeToggle, todos catalogados em Storybook (Product/). |
 | 6 | CRUD de exemplo + gestão de membros da org | ✅ Projetos (CRUD) + Membros (listar/convidar/papéis/remover, com guard de último owner) + Settings da org — tudo escopado por org via server actions com RBAC. |
 | 7 | `apps/landing` + `apps/site` (blocos de marketing + layouts) | 🟡 Scaffolds que compõem os blocos de marketing; ambos buildam estáticos. |
-| 8 | Hardening (cobertura de testes, E2E, a11y/axe, responsividade, CI/release) | 🟡 Bases prontas: 266 testes de componente (axe incluso) + CI em camadas. E2E Playwright pendente. |
+| 8 | Hardening (cobertura de testes, E2E, a11y/axe, responsividade, CI/release) | 🟡 277 testes de componente (axe incluso) + 8 E2E Playwright (login → trocar org → CRUD → membros → tema; isolamento multi-tenant) + 11 testes unitários (RBAC/tenancy) + CI em camadas. Cobertura cresce. |
 
 ## Decisões em aberto (do PRD §11.1)
 
@@ -28,8 +28,13 @@ Estado de implementação das fases descritas no PRD.
   sites não mudam. Requer `AUTH_SECRET` em runtime (ver `.env.example`).
 - RBAC: mapa `PERMISSION -> roles` em `apps/web/src/lib/rbac.ts`, validado no servidor
   (server actions / `requireOrgAccess`) — nunca só no middleware (ver CVE-2025-29927).
-- Camada de dados mock (`src/lib/data.ts`) com `tenant_id` (orgId); trocar por DB real
-  mantendo as assinaturas. Testes provam isolamento cross-tenant + RBAC.
+- Camada de dados mock (`src/lib/data.ts`) com `tenant_id` (orgId), persistida em
+  `globalThis` (singleton entre bundles server — mesmo padrão do Prisma client);
+  trocar por DB real mantendo as assinaturas. Testes provam isolamento cross-tenant + RBAC.
+- **E2E (Playwright)** em `apps/web/e2e/`: o CI roda `playwright install` + `pnpm build`
+  + `pnpm test:e2e`. Localmente, com Chromium pré-instalado:
+  `cd apps/web && CHROMIUM_BIN=/caminho/chrome pnpm test:e2e` (após `pnpm build`).
+  O `webServer` injeta um `AUTH_SECRET` de teste.
 - A cobertura total do catálogo (60+ componentes antd) cresce seguindo a receita em
   `apps/storybook/stories/` (ver §6.3 do PRD: componente + story + teste + a11y + doc).
 - **antd v5 + React 19:** o console emite um aviso de compatibilidade. Os apps devem
