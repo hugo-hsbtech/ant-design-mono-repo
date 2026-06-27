@@ -74,6 +74,18 @@ dev-all: ## Run every app at once via turbo (memory-heavy — needs ~8 GB+ free)
 	TURBO_UI=false $(PNPM) exec turbo run dev \
 		--filter=web --filter=landing --filter=site --filter=@repo/storybook
 
+# Watch shared package source and rebuild dist/ on change. Use when editing
+# packages so apps pick up changes (apps read dist/ via transpilePackages).
+# Watch one package to keep memory low:  make watch-packages PKG=i18n
+PKG ?=
+.PHONY: watch-packages
+watch-packages: ## Watch+rebuild package dist/ on change (one: PKG=i18n; default all)
+ifeq ($(PKG),)
+	TURBO_UI=false $(PNPM) exec turbo run dev --filter='./packages/*'
+else
+	$(PNPM) --filter @repo/$(PKG) dev
+endif
+
 # ---------------------------------------------------------------------------
 # Quality gates
 # ---------------------------------------------------------------------------
