@@ -4,11 +4,12 @@
 # (via Next `transpilePackages`), so you only need `make packages` once.
 #
 # Quick start:
-#   make setup       # install deps + create apps/web/.env.local + build packages
+#   make setup       # install deps (+ git hooks) + create apps/web/.env.local + build packages
 #   make web         # http://localhost:3000  (the product app — needs auth env)
 #   make landing     # http://localhost:3001
 #   make site        # http://localhost:3002
 #   make storybook   # http://localhost:6006
+#   make pre-commit  # run the same checks the pre-commit hook runs, on demand
 
 .DEFAULT_GOAL := help
 
@@ -109,6 +110,15 @@ test: ## Run unit tests
 .PHONY: clean
 clean: ## Remove build artifacts (.next, dist, .turbo)
 	$(PNPM) exec turbo run clean
+
+.PHONY: hooks
+hooks: ## (Re)install git hooks (runs automatically after `make install`)
+	$(PNPM) exec husky
+
+.PHONY: pre-commit
+pre-commit: ## Run the pre-commit checks on staged files without committing
+	$(PNPM) exec lint-staged
+	$(PNPM) exec turbo run lint typecheck --filter='[HEAD]'
 
 # ---------------------------------------------------------------------------
 # Utilities

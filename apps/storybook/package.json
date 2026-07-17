@@ -25,6 +25,7 @@
     "@storybook/addon-docs": "^10.4.6",
     "@storybook/addon-vitest": "^10.4.6",
     "@storybook/nextjs-vite": "^10.4.6",
+    "@storybook/react-dom-shim": "^10.4.6",
     "@types/node": "^22.10.2",
     "@types/react": "^19.0.2",
     "@types/react-dom": "^19.0.2",

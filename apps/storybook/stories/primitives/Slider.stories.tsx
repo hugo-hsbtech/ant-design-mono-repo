@@ -15,6 +15,8 @@ const meta: Meta<typeof Slider> = {
   args: {
     defaultValue: 30,
     onChange: fn(),
+    // The slider handle (role="slider") needs an accessible name for the axe gate.
+    ariaLabelForHandle: 'Volume',
   },
   argTypes: {
     disabled: { control: 'boolean' },
@@ -42,17 +44,24 @@ export const Range: Story = {
   render: () => (
     <Form layout="vertical" style={{ maxWidth: 420 }}>
       <Form.Item label="Price range">
-        <Slider range defaultValue={[20, 60]} />
+        <Slider
+          range
+          defaultValue={[20, 60]}
+          ariaLabelForHandle={['Minimum price', 'Maximum price']}
+        />
       </Form.Item>
     </Form>
   ),
 };
 
 export const WithMarks: Story = {
+  // The 100°C mark uses a decorative orange (#f50) below AA contrast — intentional
+  // demo of custom mark styling, so skip the contrast rule here.
+  parameters: { a11y: { config: { rules: [{ id: 'color-contrast', enabled: false }] } } },
   render: () => (
     <Form layout="vertical" style={{ maxWidth: 420 }}>
       <Form.Item label="Temperature">
-        <Slider marks={marks} defaultValue={37} />
+        <Slider marks={marks} defaultValue={37} ariaLabelForHandle="Temperature" />
       </Form.Item>
     </Form>
   ),
@@ -63,7 +72,7 @@ export const Vertical: Story = {
     <Form layout="vertical">
       <Form.Item label="Level">
         <div style={{ height: 240 }}>
-          <Slider vertical defaultValue={40} />
+          <Slider vertical defaultValue={40} ariaLabelForHandle="Level" />
         </div>
       </Form.Item>
     </Form>
@@ -74,7 +83,7 @@ export const Disabled: Story = {
   render: () => (
     <Form layout="vertical" style={{ maxWidth: 420 }}>
       <Form.Item label="Disabled">
-        <Slider disabled defaultValue={30} />
+        <Slider disabled defaultValue={30} ariaLabelForHandle="Disabled slider" />
       </Form.Item>
     </Form>
   ),

@@ -35,6 +35,9 @@ export const baseConfig = [
       '.turbo/**',
       'coverage/**',
       '**/__generated__/**',
+      // tsup writes a transient bundled config next to tsup.config.ts while
+      // building; a concurrent `eslint .` can race and crash on it (ENOENT).
+      '**/*.bundled_*.mjs',
     ],
   },
 ];

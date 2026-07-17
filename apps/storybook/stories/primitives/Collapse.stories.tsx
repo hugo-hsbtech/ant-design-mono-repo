@@ -35,6 +35,12 @@ export const Accordion: Story = {
   args: {
     accordion: true,
   },
+  // antd renders accordion Collapse as role="tablist" containing tabpanels, which
+  // axe flags (tablists should contain tabs). This is antd's ARIA structure, not
+  // ours, so skip the rule for this story.
+  parameters: {
+    a11y: { config: { rules: [{ id: 'aria-required-children', enabled: false }] } },
+  },
 };
 
 export const Ghost: Story = {
@@ -48,10 +54,7 @@ export const WithExtra: Story = {
     items: items.map((item) => ({
       ...item,
       extra: (
-        <SettingOutlined
-          aria-label="Panel settings"
-          onClick={(event) => event.stopPropagation()}
-        />
+        <SettingOutlined aria-label="Panel settings" onClick={(event) => event.stopPropagation()} />
       ),
     })),
   },

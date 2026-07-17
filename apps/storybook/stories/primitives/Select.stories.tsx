@@ -17,6 +17,9 @@ const meta: Meta<typeof Select> = {
     placeholder: 'Select a fruit',
     onChange: fn(),
     style: { width: '100%' },
+    // antd Form.Item labels aren't wired to the control without a `name`, so give
+    // the combobox its own accessible name for the axe a11y gate.
+    'aria-label': 'Fruit',
   },
   argTypes: {
     size: { control: 'select', options: ['small', 'middle', 'large'] },

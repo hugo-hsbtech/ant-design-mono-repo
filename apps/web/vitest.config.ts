@@ -1,11 +1,18 @@
 import { defineConfig } from 'vitest/config';
 import { fileURLToPath } from 'node:url';
+import { coverageConfig } from '../../packages/test-config/vitest.coverage';
 
 export default defineConfig({
   test: {
     globals: true,
     environment: 'node',
     include: ['src/**/*.test.ts'],
+    coverage: coverageConfig({
+      lines: 9,
+      statements: 9,
+      functions: 65,
+      branches: 76,
+    }),
   },
   resolve: {
     alias: {

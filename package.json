@@ -15,12 +15,16 @@
     "test": "turbo run test",
     "test:storybook": "turbo run test:storybook",
     "test:e2e": "turbo run test:e2e",
+    "test:coverage": "turbo run test:coverage",
+    "coverage:report": "node ./scripts/coverage-summary.mjs",
+    "coverage:ratchet": "node ./scripts/coverage-ratchet.mjs",
     "build:storybook": "turbo run build:storybook",
     "gen": "turbo gen",
     "format": "prettier --write \"**/*.{ts,tsx,md,json}\"",
     "format:check": "prettier --check \"**/*.{ts,tsx,md,json}\"",
     "clean": "turbo run clean && rimraf node_modules",
-    "release:dry": "nx release --dry-run"
+    "release:dry": "nx release --dry-run",
+    "prepare": "husky"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.6.0",
@@ -28,6 +32,7 @@
     "@nx/js": "^23.1.0",
     "@turbo/gen": "^2.3.3",
     "husky": "^9.1.7",
+    "lint-staged": "^17.0.8",
     "nx": "^23.1.0",
     "prettier": "^3.4.2",
     "rimraf": "^6.0.1",

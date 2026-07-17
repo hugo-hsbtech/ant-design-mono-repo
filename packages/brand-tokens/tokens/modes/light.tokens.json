@@ -9,6 +9,24 @@
       "$type": "color",
       "$value": "#141414",
       "$extensions": { "com.plataforma.antd": { "token": "colorTextBase" } }
+    },
+    "textSecondary": {
+      "$type": "color",
+      "$value": "#404040",
+      "$description": "Sobrescreve o cinza derivado pelo algoritmo do antd, que fica abaixo de 4.5:1 em texto pequeno.",
+      "$extensions": { "com.plataforma.antd": { "token": "colorTextSecondary" } }
+    },
+    "textTertiary": {
+      "$type": "color",
+      "$value": "#525252",
+      "$description": "Usado por descrições (List.Item.Meta, Typography secondary) — mesmo motivo do textSecondary.",
+      "$extensions": { "com.plataforma.antd": { "token": "colorTextTertiary" } }
+    },
+    "textQuaternary": {
+      "$type": "color",
+      "$value": "#616161",
+      "$description": "Também vira o background do Avatar sem imagem (texto branco em cima) e o texto desabilitado sobre bg desabilitado (#ececec) — precisa de 4.5:1 nos dois casos.",
+      "$extensions": { "com.plataforma.antd": { "token": "colorTextQuaternary" } }
     }
   }
 }

@@ -3,31 +3,34 @@ import { theme, type ThemeConfig } from 'antd';
 
 export const lightTheme: ThemeConfig = {
   token: {
-    "colorPrimary": "#0066CC",
-    "colorSuccess": "#16A34A",
-    "colorWarning": "#D97706",
-    "colorError": "#DC2626",
-    "colorInfo": "#0066CC",
-    "motionDurationFast": "0.1s",
-    "motionDurationMid": "0.2s",
-    "motionDurationSlow": "0.3s",
-    "borderRadius": 6,
-    "fontFamily": "Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif",
-    "fontFamilyCode": "SFMono-Regular, Menlo, Consolas, Liberation Mono, monospace",
-    "fontSize": 14,
-    "fontSizeLG": 16,
-    "lineHeight": 1.5715,
-    "colorBgBase": "#FFFFFF",
-    "colorTextBase": "#141414"
+    colorPrimary: '#0066CC',
+    colorSuccess: '#166534',
+    colorWarning: '#92400E',
+    colorError: '#B91C1C',
+    colorInfo: '#0066CC',
+    motionDurationFast: '0.1s',
+    motionDurationMid: '0.2s',
+    motionDurationSlow: '0.3s',
+    borderRadius: 6,
+    fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif',
+    fontFamilyCode: 'SFMono-Regular, Menlo, Consolas, Liberation Mono, monospace',
+    fontSize: 14,
+    fontSizeLG: 16,
+    lineHeight: 1.5715,
+    colorBgBase: '#FFFFFF',
+    colorTextBase: '#141414',
+    colorTextSecondary: '#404040',
+    colorTextTertiary: '#525252',
+    colorTextQuaternary: '#616161',
   },
   components: {
-    "Button": {
-      "controlHeight": 40,
-      "fontWeight": 500
+    Button: {
+      controlHeight: 40,
+      fontWeight: 500,
     },
-    "Card": {
-      "borderRadiusLG": 8
-    }
+    Card: {
+      borderRadiusLG: 8,
+    },
   },
   algorithm: theme.defaultAlgorithm,
 };
