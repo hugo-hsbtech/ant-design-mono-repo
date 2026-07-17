@@ -9,20 +9,13 @@ const dir = dirname(fileURLToPath(import.meta.url));
 // real browser via Playwright/Chromium — render + interaction (play) + a11y.
 export default defineConfig({
   plugins: [storybookTest({ configDir: join(dir, '.storybook') })],
-  // Pre-bundle Storybook's React renderer shim up front. Its main export
-  // resolves to the conditional `react-18` chunk, which Vite otherwise
-  // discovers late and re-optimizes mid-run — invalidating the chunk URL that
-  // in-flight dynamic imports use and 404-ing them ("Failed to fetch
-  // dynamically imported module"). Forcing it into the initial optimize pass
-  // keeps the browser test run deterministic.
-  optimizeDeps: {
-    include: ['@storybook/react-dom-shim'],
-  },
   test: {
     name: 'storybook',
     // Belt-and-suspenders for the real-browser runner: a transient dep-optimizer
     // reload should be retried, never fail the run. a11y/render assertions are
-    // deterministic, so a genuine violation still fails every attempt.
+    // deterministic, so a genuine violation still fails every attempt. The
+    // deterministic fix (pre-bundling late-discovered deps) lives in
+    // .storybook/main.ts `viteFinal`, which reaches the browser optimizer.
     retry: 2,
     browser: {
       enabled: true,
