@@ -1,6 +1,6 @@
 import { defineConfig } from 'vitest/config';
 import { fileURLToPath } from 'node:url';
-import { coverageConfig } from '@repo/test-config/vitest';
+import { coverageConfig } from '../../packages/test-config/vitest.coverage';
 
 export default defineConfig({
   test: {
