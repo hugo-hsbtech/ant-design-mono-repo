@@ -26,17 +26,19 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm lint
       - run: pnpm typecheck
-      - name: Unit tests with coverage
+      - name: Unit tests with per-project coverage gates
         run: pnpm test:coverage
-      - name: Coverage job summary
+      - name: Coverage summary (informational)
         if: ${{ !cancelled() }}
-        run: pnpm coverage:summary
-      - name: Upload coverage report
+        run: pnpm coverage:report
+      - name: Upload coverage reports
         if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v4
         with:
           name: coverage-report
-          path: coverage/
+          path: |
+            apps/*/coverage/
+            packages/*/coverage/
           retention-days: 14
 
   components:

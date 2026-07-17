@@ -1,40 +1,79 @@
 #!/usr/bin/env node
 /**
- * Render the merged Vitest coverage report as a Markdown table.
+ * Workspace-wide coverage summary (informational).
  *
- * Reads `coverage/coverage-summary.json` (produced by the `json-summary`
- * reporter) and prints a compact table. In CI it is appended to the GitHub
- * Actions job summary; locally it just prints to stdout.
+ * Each package enforces its own strict coverage gate during `test:coverage`
+ * and writes `<pkg>/coverage/coverage-summary.json` (json-summary reporter).
+ * This script aggregates those per-package summaries into one table — a global
+ * roll-up plus a row per package. It never fails the build; the gates live in
+ * each package's vitest config.
+ *
+ * In CI the table is appended to the GitHub Actions job summary.
  */
-import { readFileSync, appendFileSync } from 'node:fs';
-import { resolve } from 'node:path';
+import { readFileSync, existsSync, appendFileSync } from 'node:fs';
+import { join } from 'node:path';
 
-const summaryPath = resolve(process.cwd(), 'coverage/coverage-summary.json');
+const root = process.cwd();
 
-let summary;
-try {
-  summary = JSON.parse(readFileSync(summaryPath, 'utf8'));
-} catch {
-  console.error(`No coverage summary found at ${summaryPath}. Run "pnpm test:coverage" first.`);
-  process.exit(0); // Don't fail the job just because the summary is missing.
+// Discover workspace packages from pnpm-workspace.yaml globs (apps/*, packages/*).
+import { readdirSync } from 'node:fs';
+const GLOB_DIRS = ['apps', 'packages'];
+const pkgDirs = GLOB_DIRS.flatMap((base) => {
+  const abs = join(root, base);
+  if (!existsSync(abs)) return [];
+  return readdirSync(abs, { withFileTypes: true })
+    .filter((d) => d.isDirectory())
+    .map((d) => join(base, d.name));
+});
+
+const METRICS = ['lines', 'statements', 'functions', 'branches'];
+const rows = [];
+const totals = Object.fromEntries(METRICS.map((m) => [m, { covered: 0, total: 0 }]));
+
+for (const dir of pkgDirs) {
+  const file = join(root, dir, 'coverage', 'coverage-summary.json');
+  if (!existsSync(file)) continue;
+  let data;
+  try {
+    data = JSON.parse(readFileSync(file, 'utf8'));
+  } catch {
+    continue;
+  }
+  const t = data.total;
+  if (!t) continue;
+  rows.push({ name: dir, total: t });
+  for (const m of METRICS) {
+    totals[m].covered += t[m].covered;
+    totals[m].total += t[m].total;
+  }
 }
 
-const t = summary.total;
-const pct = (m) => `${m.pct.toFixed(2)}%`;
-const row = (label, m) => `| ${label} | ${pct(m)} | ${m.covered}/${m.total} |`;
+if (rows.length === 0) {
+  console.error('No per-package coverage summaries found. Run "pnpm test:coverage" first.');
+  process.exit(0);
+}
 
-const md = [
-  '## 🧪 Coverage report',
-  '',
-  '| Metric | % | Covered / Total |',
-  '| --- | --- | --- |',
-  row('Lines', t.lines),
-  row('Statements', t.statements),
-  row('Functions', t.functions),
-  row('Branches', t.branches),
-  '',
-].join('\n');
+const pct = (covered, total) => (total === 0 ? 100 : (covered / total) * 100);
+const fmt = (n) => `${n.toFixed(2)}%`;
 
+const lines = [];
+lines.push('## 🧪 Coverage summary');
+lines.push('');
+lines.push('> Global roll-up is informational. Each package enforces its own strict gate.');
+lines.push('');
+lines.push('| Package | Lines | Statements | Functions | Branches |');
+lines.push('| --- | --- | --- | --- | --- |');
+for (const r of rows.sort((a, b) => a.name.localeCompare(b.name))) {
+  lines.push(
+    `| ${r.name} | ${fmt(r.total.lines.pct)} | ${fmt(r.total.statements.pct)} | ${fmt(r.total.functions.pct)} | ${fmt(r.total.branches.pct)} |`,
+  );
+}
+lines.push(
+  `| **Global** | **${fmt(pct(totals.lines.covered, totals.lines.total))}** | **${fmt(pct(totals.statements.covered, totals.statements.total))}** | **${fmt(pct(totals.functions.covered, totals.functions.total))}** | **${fmt(pct(totals.branches.covered, totals.branches.total))}** |`,
+);
+lines.push('');
+
+const md = lines.join('\n');
 console.log(md);
 
 if (process.env.GITHUB_STEP_SUMMARY) {
