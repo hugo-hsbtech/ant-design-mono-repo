@@ -60,10 +60,7 @@ export const WithIcon: Story = {
 export const WithImage: Story = {
   render: () => (
     <Space wrap>
-      <Avatar
-        src="https://api.dicebear.com/7.x/miniavs/svg?seed=ada"
-        alt="Ada Lovelace avatar"
-      />
+      <Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=ada" alt="Ada Lovelace avatar" />
       <Avatar
         size="large"
         src="https://api.dicebear.com/7.x/miniavs/svg?seed=alan"

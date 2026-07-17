@@ -109,14 +109,14 @@ const UserResponse = z.object({
   id: z.string(),
   email: z.string().email(),
   role: z.enum(['admin', 'member']),
-})
+});
 
-type UserResponse = z.infer<typeof UserResponse>
+type UserResponse = z.infer<typeof UserResponse>;
 
 export async function fetchUser(userId: string): Promise<UserResponse> {
-  const response = await fetch(`/api/users/${userId}`)
-  const json: unknown = await response.json()
-  return UserResponse.parse(json)
+  const response = await fetch(`/api/users/${userId}`);
+  const json: unknown = await response.json();
+  return UserResponse.parse(json);
 }
 ```
 
@@ -127,21 +127,21 @@ type LoadState<T> =
   | { kind: 'idle' }
   | { kind: 'loading' }
   | { kind: 'loaded'; data: T }
-  | { kind: 'error'; message: string }
+  | { kind: 'error'; message: string };
 
 function renderState(state: LoadState<User>) {
   switch (state.kind) {
     case 'idle':
-      return null
+      return null;
     case 'loading':
-      return <Spinner />
+      return <Spinner />;
     case 'loaded':
-      return <Profile user={state.data} />
+      return <Profile user={state.data} />;
     case 'error':
-      return <ErrorMessage message={state.message} />
+      return <ErrorMessage message={state.message} />;
     default: {
-      const exhaustive: never = state
-      return exhaustive
+      const exhaustive: never = state;
+      return exhaustive;
     }
   }
 }
@@ -153,15 +153,15 @@ function renderState(state: LoadState<User>) {
 const FEATURE_FLAGS = {
   billingV2: 'billing-v2',
   searchRanking: 'search-ranking',
-} as const satisfies Record<string, string>
+} as const satisfies Record<string, string>;
 ```
 
 ### Utility and Template Literal Types
 
 ```typescript
-type PublicUser = Omit<User, 'passwordHash'>
-type UserMap = Record<User['id'], PublicUser>
-type ApiRoute = `/api/${string}`
+type PublicUser = Omit<User, 'passwordHash'>;
+type UserMap = Record<User['id'], PublicUser>;
+type ApiRoute = `/api/${string}`;
 ```
 
 ## Review Checklist

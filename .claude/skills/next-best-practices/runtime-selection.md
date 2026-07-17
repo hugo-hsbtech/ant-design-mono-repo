@@ -17,7 +17,7 @@ Only use Edge runtime when you have a **concrete latency requirement** for geogr
 
 ```tsx
 // Opt into Edge runtime explicitly
-export const runtime = 'edge'
+export const runtime = 'edge';
 
 export default function Page() {
   // Limited to Web APIs only
@@ -27,6 +27,7 @@ export default function Page() {
 ## Decision Checklist
 
 Before using Edge runtime, verify all three:
+
 1. The project already uses Edge runtime elsewhere
 2. There is a concrete, measured latency need
 3. All dependencies are Edge-compatible (no native modules, no Node.js APIs)
@@ -35,13 +36,13 @@ Before using Edge runtime, verify all three:
 
 ## Trade-offs
 
-| | Node.js | Edge |
-|-|---------|------|
-| Full Node.js API | Yes | No |
-| Native npm packages | Yes | Limited |
-| Cold start | Slower | Faster |
-| Geographic distribution | No | Yes |
-| Database connections | Yes | Limited |
+|                         | Node.js | Edge    |
+| ----------------------- | ------- | ------- |
+| Full Node.js API        | Yes     | No      |
+| Native npm packages     | Yes     | Limited |
+| Cold start              | Slower  | Faster  |
+| Geographic distribution | No      | Yes     |
+| Database connections    | Yes     | Limited |
 
 ## When Edge Is Appropriate
 

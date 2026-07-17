@@ -39,13 +39,23 @@ export const PresetColors: Story = {
   parameters: showcaseColors,
   render: () => (
     <Space wrap>
-      {['magenta', 'red', 'volcano', 'orange', 'gold', 'lime', 'green', 'cyan', 'blue', 'geekblue', 'purple'].map(
-        (color) => (
-          <Tag key={color} color={color}>
-            {color}
-          </Tag>
-        ),
-      )}
+      {[
+        'magenta',
+        'red',
+        'volcano',
+        'orange',
+        'gold',
+        'lime',
+        'green',
+        'cyan',
+        'blue',
+        'geekblue',
+        'purple',
+      ].map((color) => (
+        <Tag key={color} color={color}>
+          {color}
+        </Tag>
+      ))}
     </Space>
   ),
 };

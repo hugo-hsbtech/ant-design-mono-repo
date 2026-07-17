@@ -41,7 +41,7 @@ All three configs ship with **`tracesSampleRate: 0`** at launch (errors-only, mi
 
 ```ts
 // sentry.client.config.ts
-import * as Sentry from '@sentry/nextjs'
+import * as Sentry from '@sentry/nextjs';
 
 Sentry.init({
   dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
@@ -63,35 +63,35 @@ Sentry.init({
       blockAllMedia: true,
     }),
   ],
-})
+});
 ```
 
 ### Server Config
 
 ```ts
 // sentry.server.config.ts
-import * as Sentry from '@sentry/nextjs'
+import * as Sentry from '@sentry/nextjs';
 
 Sentry.init({
   dsn: process.env.SENTRY_DSN,
   environment: process.env.ENV,
   release: process.env.RELEASE,
-  tracesSampleRate: 0,   // errors-only at launch
-})
+  tracesSampleRate: 0, // errors-only at launch
+});
 ```
 
 ### Edge Config
 
 ```ts
 // sentry.edge.config.ts
-import * as Sentry from '@sentry/nextjs'
+import * as Sentry from '@sentry/nextjs';
 
 Sentry.init({
   dsn: process.env.SENTRY_DSN,
   environment: process.env.ENV,
-  tracesSampleRate: 0,   // errors-only at launch
+  tracesSampleRate: 0, // errors-only at launch
   // Note: session replay and most integrations are not available in Edge
-})
+});
 ```
 
 ## next.config.ts
@@ -100,12 +100,12 @@ Wrap your config with `withSentryConfig` to inject the build-time plugin:
 
 ```ts
 // next.config.ts
-import { withSentryConfig } from '@sentry/nextjs'
-import type { NextConfig } from 'next'
+import { withSentryConfig } from '@sentry/nextjs';
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   // your config
-}
+};
 
 export default withSentryConfig(nextConfig, {
   org: process.env.SENTRY_ORG,
@@ -117,7 +117,7 @@ export default withSentryConfig(nextConfig, {
 
   // Automatically tree-shake Sentry logger statements in production
   disableLogger: true,
-})
+});
 ```
 
 ## What `@sentry/nextjs` captures automatically
@@ -125,7 +125,7 @@ export default withSentryConfig(nextConfig, {
 These behaviors are inherent to the SDK once `Sentry.init` runs in each runtime config file. They are **not** adapter-side code, and the future `@ezra/observability` adapter relies on them:
 
 - **Server Components**: errors thrown in RSC render are captured by `withSentryConfig`'s instrumentation hook before `error.tsx` renders the fallback. The adapter does not need to wrap RSC render functions.
-- **Server Actions**: when wrapped with `Sentry.withServerActionInstrumentation`, uncaught exceptions are captured and the action is wrapped in a transaction. (Today, with `tracesSampleRate: 0`, only the capture path is exercised.) The wrapper is a Sentry SDK API; whether the *port* exposes an equivalent helper is an open API-design question for the frontend mirror — see `docs/proposals/sentry-error-tracking-introduction.md`.
+- **Server Actions**: when wrapped with `Sentry.withServerActionInstrumentation`, uncaught exceptions are captured and the action is wrapped in a transaction. (Today, with `tracesSampleRate: 0`, only the capture path is exercised.) The wrapper is a Sentry SDK API; whether the _port_ exposes an equivalent helper is an open API-design question for the frontend mirror — see `docs/proposals/sentry-error-tracking-introduction.md`.
 - **Route Handlers**: same instrumentation as Server Actions.
 - **Client Components**: unhandled errors and unhandled promise rejections in the browser are captured automatically once `sentry.client.config.ts` runs.
 
@@ -139,7 +139,7 @@ The frontend `@ezra/observability` adapter wraps these capture surfaces under a 
 
 ## User Context
 
-The adapter is the *only* place that calls `Sentry.setUser`. App code calls `getObservability().setUser(userId)`. The adapter implementation looks like:
+The adapter is the _only_ place that calls `Sentry.setUser`. App code calls `getObservability().setUser(userId)`. The adapter implementation looks like:
 
 ```ts
 // adapters/sentry.ts (frontend Sentry adapter — only file that imports @sentry/nextjs)
@@ -164,33 +164,33 @@ Same rule as backend: the port deliberately does not accept `email`. App code th
 Sentry.init({
   // ...
   beforeSend(event, hint) {
-    const error = hint.originalException
+    const error = hint.originalException;
 
     // Drop browser extension noise
     if (
-      event.exception?.values?.[0]?.stacktrace?.frames?.some(
-        f => f.filename?.includes('chrome-extension')
+      event.exception?.values?.[0]?.stacktrace?.frames?.some((f) =>
+        f.filename?.includes('chrome-extension'),
       )
     ) {
-      return null
+      return null;
     }
 
     // Drop canceled network requests
     if (error instanceof DOMException && error.name === 'AbortError') {
-      return null
+      return null;
     }
 
     // Scrub sensitive fields from request data
     if (event.request?.data) {
-      const data = event.request.data as Record<string, unknown>
+      const data = event.request.data as Record<string, unknown>;
       for (const key of ['password', 'token', 'authorization', 'card_number']) {
-        if (key in data) data[key] = '[Filtered]'
+        if (key in data) data[key] = '[Filtered]';
       }
     }
 
-    return event
+    return event;
   },
-})
+});
 ```
 
 ## Session Replay

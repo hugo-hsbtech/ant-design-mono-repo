@@ -58,13 +58,13 @@ Skill (orchestrator)
 
 **Parse input mode:**
 
-| Mode | Example | Behavior |
-|------|---------|----------|
-| No args | `/ezra-generate-frontend-tests` | List catalog sections, prompt user |
-| Catalog section | `stripHtmlTags, stripMarkdown` | Read catalog, find matching section |
-| Source file | `frontend/packages/hooks/src/useApi.ts` | Ad-hoc mode (will add to catalog after) |
-| Custom file + filter | `path/to/specs.md "Section"` | Read file, filter to section |
-| Inline text | Pasted bullet list | Parse each line as test case |
+| Mode                 | Example                                 | Behavior                                |
+| -------------------- | --------------------------------------- | --------------------------------------- |
+| No args              | `/ezra-generate-frontend-tests`         | List catalog sections, prompt user      |
+| Catalog section      | `stripHtmlTags, stripMarkdown`          | Read catalog, find matching section     |
+| Source file          | `frontend/packages/hooks/src/useApi.ts` | Ad-hoc mode (will add to catalog after) |
+| Custom file + filter | `path/to/specs.md "Section"`            | Read file, filter to section            |
+| Inline text          | Pasted bullet list                      | Parse each line as test case            |
 
 **Package Detection** (for source file mode):
 
@@ -87,6 +87,7 @@ Given the source file path, derive:
 **For ad-hoc mode (source file not in catalog):**
 
 Extract basename without extension for plan filename:
+
 - `src/lib/utils/text.utils.ts` → `text.utils`
 - `src/useApi.ts` → `useApi`
 
@@ -233,6 +234,7 @@ cd frontend && pnpm --filter <pkg-name> test -- <test-path>
 ```
 
 **Parse output:**
+
 - Count passing tests
 - Identify failing tests
 - Capture error messages
@@ -334,9 +336,10 @@ Auto-append new entry to `<package-root>/tests/plans/test-catalog.md`:
 **Priority**: [inferred] | **Effort**: [inferred]
 
 **Test cases**:
+
 1. [Generated test case 1]
 2. [Generated test case 2]
-...
+   ...
 
 **Setup notes**: [Factories used, mocks, etc.]
 ```
@@ -345,13 +348,16 @@ Auto-append new entry to `<package-root>/tests/plans/test-catalog.md`:
 
 ```markdown
 ✅ Generated N test files:
+
 - {test-file-path} ({test-count} cases, passing)
 
 ✅ Infrastructure created:
+
 - {factory-files}
 - {handler-files}
 
 ✅ Catalog updated:
+
 - Marked "{section-name}" as done
 - Or: Added new entry for "{source-name}"
 
@@ -360,9 +366,11 @@ Auto-append new entry to `<package-root>/tests/plans/test-catalog.md`:
 ✅ TypeScript: No type errors in generated files
 
 TypeScript suppressions (if any):
+
 - {file:line} // @ts-expect-error {reason}
 
 ⚠️ Skipped (if any):
+
 - {test-name}: {reason with TODO comment}
 ```
 
@@ -370,21 +378,21 @@ TypeScript suppressions (if any):
 
 ## Key Resources
 
-| Resource | Path | Purpose |
-|----------|------|---------|
-| Test catalog | `<package-root>/tests/plans/test-catalog.md` | Spec definitions & tiers |
-| Testing standards | `docs/development-guides/testing-standards.md` | Best practices |
-| Factory index | `<package-root>/tests/utils/factories/index.ts` | Existing factories |
-| MSW handlers index | `<package-root>/tests/mocks/handlers/index.ts` | API mocks |
-| Plan files | `<package-root>/tests/plans/vitest-plan-*.md` | Generated test plans (gitignored) |
-| Shared setup | `@ezra/test-utils/setup` | Global test setup (jest-dom, cleanup, mocks) |
-| Shared render | `@ezra/test-utils/render` | renderWithProviders (Theme + QueryClient wrapper) |
-| Shared renderHook | `@ezra/test-utils/renderHook` | renderHookWithProviders (Theme + QueryClient) |
-| Shared providers | `@ezra/test-utils/allProviders` | AllProviders component (Theme + QueryClient) |
-| Shared QueryClient | `@ezra/test-utils/testQueryClient` | createTestQueryClient (retry:false, gcTime:0) |
-| Shared MSW factory | `@ezra/test-utils/server` | createMswServer(handlers) |
-| Generated API hooks | `@ezra/api-client/<service>` | Orval-generated TanStack Query hooks + MSW handlers |
-| Generated types | `@ezra/api-client/model/<service>` | Orval-generated TypeScript interfaces from Pydantic |
+| Resource            | Path                                            | Purpose                                             |
+| ------------------- | ----------------------------------------------- | --------------------------------------------------- |
+| Test catalog        | `<package-root>/tests/plans/test-catalog.md`    | Spec definitions & tiers                            |
+| Testing standards   | `docs/development-guides/testing-standards.md`  | Best practices                                      |
+| Factory index       | `<package-root>/tests/utils/factories/index.ts` | Existing factories                                  |
+| MSW handlers index  | `<package-root>/tests/mocks/handlers/index.ts`  | API mocks                                           |
+| Plan files          | `<package-root>/tests/plans/vitest-plan-*.md`   | Generated test plans (gitignored)                   |
+| Shared setup        | `@ezra/test-utils/setup`                        | Global test setup (jest-dom, cleanup, mocks)        |
+| Shared render       | `@ezra/test-utils/render`                       | renderWithProviders (Theme + QueryClient wrapper)   |
+| Shared renderHook   | `@ezra/test-utils/renderHook`                   | renderHookWithProviders (Theme + QueryClient)       |
+| Shared providers    | `@ezra/test-utils/allProviders`                 | AllProviders component (Theme + QueryClient)        |
+| Shared QueryClient  | `@ezra/test-utils/testQueryClient`              | createTestQueryClient (retry:false, gcTime:0)       |
+| Shared MSW factory  | `@ezra/test-utils/server`                       | createMswServer(handlers)                           |
+| Generated API hooks | `@ezra/api-client/<service>`                    | Orval-generated TanStack Query hooks + MSW handlers |
+| Generated types     | `@ezra/api-client/model/<service>`              | Orval-generated TypeScript interfaces from Pydantic |
 
 ## Agent Responsibilities
 

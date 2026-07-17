@@ -6,18 +6,13 @@ Use `next/script` instead of native `<script>` tags for proper optimization and 
 
 ```tsx
 // Bad: Native script tag
-<script src="https://example.com/script.js" />
+<script src="https://example.com/script.js" />;
 
 // Good: next/script
-import Script from 'next/script'
+import Script from 'next/script';
 
 export default function Page() {
-  return (
-    <Script
-      src="https://example.com/script.js"
-      strategy="afterInteractive"
-    />
-  )
+  return <Script src="https://example.com/script.js" strategy="afterInteractive" />;
 }
 ```
 
@@ -40,12 +35,12 @@ When using `dangerouslySetInnerHTML` or children, the `id` attribute is required
 
 ## Loading Strategies
 
-| Strategy | When | Use For |
-|----------|------|---------|
-| `afterInteractive` (default) | After page interactive | Analytics, chat widgets |
-| `lazyOnload` | Browser idle time | Low-priority scripts |
-| `beforeInteractive` | Before page interactive | Critical scripts (root layout only) |
-| `worker` | Web worker (experimental) | Offload heavy scripts |
+| Strategy                     | When                      | Use For                             |
+| ---------------------------- | ------------------------- | ----------------------------------- |
+| `afterInteractive` (default) | After page interactive    | Analytics, chat widgets             |
+| `lazyOnload`                 | Browser idle time         | Low-priority scripts                |
+| `beforeInteractive`          | Before page interactive   | Critical scripts (root layout only) |
+| `worker`                     | Web worker (experimental) | Offload heavy scripts               |
 
 ```tsx
 // Analytics - default strategy
@@ -64,7 +59,7 @@ When using `dangerouslySetInnerHTML` or children, the `id` attribute is required
 Don't implement GA manually — use the optimized component:
 
 ```tsx
-import { GoogleAnalytics } from '@next/third-parties/google'
+import { GoogleAnalytics } from '@next/third-parties/google';
 
 export default function RootLayout({ children }) {
   return (
@@ -72,7 +67,7 @@ export default function RootLayout({ children }) {
       <body>{children}</body>
       <GoogleAnalytics gaId="G-XXXXXXXXXX" />
     </html>
-  )
+  );
 }
 ```
 
@@ -84,10 +79,10 @@ Also available: `GoogleTagManager`, `YouTubeEmbed`, `GoogleMapsEmbed`.
 
 ```tsx
 // Bad: Inside Head
-import Head from 'next/head'
+import Head from 'next/head';
 <Head>
-  <Script src="..." />  {/* Wrong */}
-</Head>
+  <Script src="..." /> {/* Wrong */}
+</Head>;
 
 // Good: At page or layout level
 export default function Page() {
@@ -96,6 +91,6 @@ export default function Page() {
       <main>...</main>
       <Script src="..." strategy="afterInteractive" />
     </>
-  )
+  );
 }
 ```

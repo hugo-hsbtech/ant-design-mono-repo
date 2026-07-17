@@ -47,7 +47,7 @@ Always read these before authoring or debugging workflows:
 
 ```yaml
 # Third-party — pin by SHA
-- uses: dorny/paths-filter@de90cc6fb38fc0963ad72b210f1f284cd68cea36  # v3.0.2
+- uses: dorny/paths-filter@de90cc6fb38fc0963ad72b210f1f284cd68cea36 # v3.0.2
 
 # Official GitHub — tag is acceptable
 - uses: actions/checkout@v4
@@ -77,12 +77,12 @@ Prevent parallel deploys and duplicate CI runs:
 # Deploy workflows — one deploy per service at a time
 concurrency:
   group: deploy-${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: false  # NEVER cancel in-progress deploys
+  cancel-in-progress: false # NEVER cancel in-progress deploys
 
 # Test workflows — cancel previous runs on same PR
 concurrency:
   group: test-${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true  # Safe to cancel superseded test runs
+  cancel-in-progress: true # Safe to cancel superseded test runs
 
 # Terraform — one plan/apply at a time
 concurrency:
@@ -91,6 +91,7 @@ concurrency:
 ```
 
 Rules:
+
 - **Deploy/Terraform**: `cancel-in-progress: false` — never cancel a running deployment
 - **Tests**: `cancel-in-progress: true` — cancel outdated runs to save runner minutes
 - **Group key**: include `github.ref` to allow parallel runs on different branches
@@ -115,6 +116,7 @@ on:
 ```
 
 If you must use `pull_request_target`:
+
 - NEVER checkout the PR head (`ref: ${{ github.event.pull_request.head.sha }}`)
 - Only use it for metadata operations (labels, comments)
 - Keep the job minimal with `permissions: { pull-requests: write }` only
@@ -164,7 +166,7 @@ jobs:
       deal-triage-worker: ${{ steps.filter.outputs.deal-triage-worker }}
     steps:
       - uses: actions/checkout@v4
-      - uses: dorny/paths-filter@de90cc6fb38fc0963ad72b210f1f284cd68cea36  # v3.0.2
+      - uses: dorny/paths-filter@de90cc6fb38fc0963ad72b210f1f284cd68cea36 # v3.0.2
         id: filter
         with:
           filters: |
@@ -320,7 +322,7 @@ See `frontend/apps/app/tests/e2e/global-setup.ts` for the full pattern.
 # Pin version for reproducibility (don't use "latest" in CI)
 - uses: astral-sh/setup-uv@v4
   with:
-    version: "0.10.11"
+    version: '0.10.11'
 
 # pnpm + node (frontend)
 - uses: pnpm/action-setup@v4
@@ -393,7 +395,7 @@ Use matrix builds to test across multiple configurations:
 jobs:
   test:
     strategy:
-      fail-fast: false  # Don't cancel other matrix jobs on first failure
+      fail-fast: false # Don't cancel other matrix jobs on first failure
       matrix:
         python-version: ['3.12', '3.13']
         # Or for frontend:
@@ -425,6 +427,7 @@ jobs:
 ```
 
 Rules:
+
 - Always use `fail-fast: false` — seeing all failures is more useful than cancelling early
 - Use `include` for environment-specific config (e.g., different DB URLs per matrix entry)
 - Use `exclude` sparingly — prefer explicit `include` for clarity
@@ -436,7 +439,7 @@ Notify on deploy failures or critical CI breakage:
 ```yaml
 - name: Notify on failure
   if: failure()
-  uses: slackapi/slack-github-action@485727b3e97e4f09be51e1a16e7401c3752c64a2  # v2.1.0
+  uses: slackapi/slack-github-action@485727b3e97e4f09be51e1a16e7401c3752c64a2 # v2.1.0
   with:
     webhook: ${{ secrets.SLACK_DEPLOY_WEBHOOK }}
     webhook-type: incoming-webhook
@@ -456,6 +459,7 @@ Notify on deploy failures or critical CI breakage:
 ```
 
 Rules:
+
 - Use `if: failure()` — only notify on failure, not every run
 - Deploy workflows: always notify on failure
 - Test workflows: only notify on `main` branch failures (not PR failures)
@@ -511,6 +515,7 @@ Environment protection rules are configured in GitHub repo settings, not in YAML
 ## Runner Environment
 
 `ubuntu-latest` now points to **Ubuntu 24.04** (changed late 2024). Be aware:
+
 - Some system packages differ from 22.04 — test workflows after upgrading
 - If you need a specific Ubuntu version, pin explicitly: `runs-on: ubuntu-24.04` or `ubuntu-22.04`
 - Custom runner images are now GA (March 2026) — use for pre-baked deps if startup time is critical
@@ -525,7 +530,7 @@ Shallow clone by default — full git history is rarely needed:
 ```yaml
 - uses: actions/checkout@v4
   with:
-    fetch-depth: 1          # Shallow clone (default, but be explicit)
+    fetch-depth: 1 # Shallow clone (default, but be explicit)
     persist-credentials: false
 ```
 
@@ -548,6 +553,7 @@ Instead of running all tests, use Turbo's affected filter to test only packages 
 ```
 
 Rules:
+
 - Use `--affected` on PR workflows for speed
 - Always run full test suite on `main` pushes as a safety net
 - `--affected` compares against the merge base automatically
@@ -599,12 +605,13 @@ jobs:
 # GOOD: one job for fast checks, separate job for slow tests
 jobs:
   checks:
-    steps: [checkout, install, lint, typecheck, codegen-drift]  # ~1 min total
+    steps: [checkout, install, lint, typecheck, codegen-drift] # ~1 min total
   test:
-    steps: [checkout, install, test]  # ~3 min, benefits from full resources
+    steps: [checkout, install, test] # ~3 min, benefits from full resources
 ```
 
 Rules:
+
 - Lint + typecheck + format: combine into one job (each is <30s)
 - Tests: separate job (benefits from full runner resources)
 - Deploy: always separate job with `needs:` dependency
@@ -622,7 +629,7 @@ jobs:
 
   # Large: 4 vCPU, 16 GB RAM — use for Docker builds, E2E
   deploy:
-    runs-on: ubuntu-latest-4-cores  # GitHub-hosted larger runner
+    runs-on: ubuntu-latest-4-cores # GitHub-hosted larger runner
 
   # Or use labels for self-hosted
   build:
@@ -646,7 +653,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: astral-sh/setup-uv@v4       # Warms uv cache
+      - uses: astral-sh/setup-uv@v4 # Warms uv cache
       - uses: pnpm/action-setup@v4
         with:
           package_json_file: frontend/package.json
@@ -814,15 +821,15 @@ gh run watch <id>                # Watch a run in progress
 
 ### Common Failures in This Repo
 
-| Failure | Cause | Fix |
-|---------|-------|-----|
-| `uv sync` fails | Lockfile out of sync | Run `uv lock` locally, commit `uv.lock` |
-| `pnpm install --frozen-lockfile` fails | `pnpm-lock.yaml` out of sync | Run `pnpm install`, commit lockfile |
-| Codegen drift check fails | API specs changed, generated code stale | Run `pnpm --filter @ezra/api-client generate`, commit |
-| Postgres service unhealthy | Image version mismatch or slow start | Check `postgres:17`, increase `--health-retries` |
-| `docker push` permission denied | OIDC role missing `ecr:PutImage` | Check IAM policy on deploy role |
-| Terraform state lock | Another plan/apply running | Wait or `terraform force-unlock <id>` |
-| Playwright timeout | Backend didn't start in time | Check `uv sync` output, port 18000 conflicts |
+| Failure                                | Cause                                   | Fix                                                   |
+| -------------------------------------- | --------------------------------------- | ----------------------------------------------------- |
+| `uv sync` fails                        | Lockfile out of sync                    | Run `uv lock` locally, commit `uv.lock`               |
+| `pnpm install --frozen-lockfile` fails | `pnpm-lock.yaml` out of sync            | Run `pnpm install`, commit lockfile                   |
+| Codegen drift check fails              | API specs changed, generated code stale | Run `pnpm --filter @ezra/api-client generate`, commit |
+| Postgres service unhealthy             | Image version mismatch or slow start    | Check `postgres:17`, increase `--health-retries`      |
+| `docker push` permission denied        | OIDC role missing `ecr:PutImage`        | Check IAM policy on deploy role                       |
+| Terraform state lock                   | Another plan/apply running              | Wait or `terraform force-unlock <id>`                 |
+| Playwright timeout                     | Backend didn't start in time            | Check `uv sync` output, port 18000 conflicts          |
 
 ### Enable Debug Logging
 
@@ -868,6 +875,7 @@ Limitations: no OIDC support, service containers behave differently, secrets mus
 Before completing a workflow authoring or debugging task:
 
 ### Security
+
 - [ ] Third-party actions pinned by SHA (not just tag)
 - [ ] `persist-credentials: false` on checkout (unless git push needed)
 - [ ] `permissions` block is explicit and least-privilege
@@ -876,11 +884,13 @@ Before completing a workflow authoring or debugging task:
 - [ ] No `pull_request_target` with PR head checkout
 
 ### Monorepo
+
 - [ ] Every `run` step has `working-directory`
 - [ ] Path filters include all shared dependencies
 - [ ] `NEXT_PUBLIC_*` passed as `--build-arg` in Docker builds
 
 ### Reliability
+
 - [ ] `concurrency` group set (cancel-in-progress: false for deploys, true for tests)
 - [ ] `timeout-minutes` set on all jobs
 - [ ] Dependency installs use `--frozen-lockfile` or `--frozen`

@@ -6,19 +6,19 @@ Use `next/font` for automatic font optimization with zero layout shift.
 
 ```tsx
 // app/layout.tsx
-import { Inter, Roboto_Mono } from 'next/font/google'
+import { Inter, Roboto_Mono } from 'next/font/google';
 
 const inter = Inter({
   subsets: ['latin'],
   display: 'swap',
-})
+});
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={inter.className}>
       <body>{children}</body>
     </html>
-  )
+  );
 }
 ```
 
@@ -26,46 +26,50 @@ export default function RootLayout({ children }) {
 
 ```tsx
 // app/layout.tsx
-import { Inter, Roboto_Mono } from 'next/font/google'
+import { Inter, Roboto_Mono } from 'next/font/google';
 
 const inter = Inter({
   subsets: ['latin'],
   variable: '--font-inter',
   display: 'swap',
-})
+});
 
 const robotoMono = Roboto_Mono({
   subsets: ['latin'],
   variable: '--font-roboto-mono',
   display: 'swap',
-})
+});
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${inter.variable} ${robotoMono.variable}`}>
       <body>{children}</body>
     </html>
-  )
+  );
 }
 ```
 
 ```css
 /* globals.css */
-body { font-family: var(--font-inter); }
-code { font-family: var(--font-roboto-mono); }
+body {
+  font-family: var(--font-inter);
+}
+code {
+  font-family: var(--font-roboto-mono);
+}
 ```
 
 ## Local Fonts
 
 ```tsx
-import localFont from 'next/font/local'
+import localFont from 'next/font/local';
 
 // Variable font
 const myFont = localFont({
   src: './fonts/MyFont-Variable.woff2',
   variable: '--font-my-font',
   display: 'swap',
-})
+});
 
 // Multiple weights
 const myFont = localFont({
@@ -74,21 +78,21 @@ const myFont = localFont({
     { path: './fonts/MyFont-Bold.woff2', weight: '700' },
   ],
   variable: '--font-my-font',
-})
+});
 ```
 
 ## Tailwind CSS Integration
 
 ```tsx
 // app/layout.tsx
-const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 
 export default function RootLayout({ children }) {
   return (
     <html className={inter.variable}>
       <body className="font-sans">{children}</body>
     </html>
-  )
+  );
 }
 ```
 
@@ -102,7 +106,7 @@ module.exports = {
       },
     },
   },
-}
+};
 ```
 
 ## Best Practices
@@ -115,7 +119,7 @@ module.exports = {
 
 ```tsx
 // lib/fonts.ts
-import { Inter } from 'next/font/google'
+import { Inter } from 'next/font/google';
 
-export const inter = Inter({ subsets: ['latin'] })
+export const inter = Inter({ subsets: ['latin'] });
 ```

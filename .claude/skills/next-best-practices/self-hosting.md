@@ -8,7 +8,7 @@ Use `output: 'standalone'` to create a minimal production build:
 // next.config.js
 module.exports = {
   output: 'standalone',
-}
+};
 ```
 
 This creates a `standalone` folder with only production dependencies — no need for `node_modules` in the container.
@@ -49,15 +49,17 @@ CMD ["node", "server.js"]
 ```js
 // ecosystem.config.js
 module.exports = {
-  apps: [{
-    name: 'next-app',
-    script: 'node_modules/.bin/next',
-    args: 'start',
-    instances: 'max',
-    exec_mode: 'cluster',
-    env: { NODE_ENV: 'production' },
-  }],
-}
+  apps: [
+    {
+      name: 'next-app',
+      script: 'node_modules/.bin/next',
+      args: 'start',
+      instances: 'max',
+      exec_mode: 'cluster',
+      env: { NODE_ENV: 'production' },
+    },
+  ],
+};
 ```
 
 ## Multi-Instance ISR Cache
@@ -68,20 +70,20 @@ module.exports = {
 
 ```ts
 // cache-handler.ts
-import { CacheHandler } from 'next/dist/server/lib/incremental-cache'
-import Redis from 'ioredis'
+import { CacheHandler } from 'next/dist/server/lib/incremental-cache';
+import Redis from 'ioredis';
 
-const redis = new Redis(process.env.REDIS_URL!)
+const redis = new Redis(process.env.REDIS_URL!);
 
 export default class RedisCache implements CacheHandler {
   async get(key: string) {
-    const data = await redis.get(key)
-    return data ? JSON.parse(data) : null
+    const data = await redis.get(key);
+    return data ? JSON.parse(data) : null;
   }
 
   async set(key: string, data: any, ctx: { revalidate?: number }) {
-    const ttl = ctx.revalidate ?? 3600
-    await redis.setex(key, ttl, JSON.stringify(data))
+    const ttl = ctx.revalidate ?? 3600;
+    await redis.setex(key, ttl, JSON.stringify(data));
   }
 
   async revalidateTag(tag: string) {
@@ -95,7 +97,7 @@ export default class RedisCache implements CacheHandler {
 module.exports = {
   cacheHandler: require.resolve('./cache-handler'),
   cacheMaxMemorySize: 0, // Disable in-memory cache
-}
+};
 ```
 
 ## Environment Variables
@@ -108,17 +110,17 @@ module.exports = {
 ```ts
 // app/api/health/route.ts
 export async function GET() {
-  return Response.json({ status: 'ok', timestamp: new Date().toISOString() })
+  return Response.json({ status: 'ok', timestamp: new Date().toISOString() });
 }
 ```
 
 ## What Works vs Needs Extra Setup
 
-| Feature | Works Out of Box | Needs Config |
-|---------|-----------------|--------------|
-| Static assets | Yes | — |
-| Server rendering | Yes | — |
-| Image optimization | Yes | External: needs loader |
-| ISR (single instance) | Yes | — |
-| ISR (multi-instance) | No | Custom cache handler |
-| Streaming | Yes | — |
+| Feature               | Works Out of Box | Needs Config           |
+| --------------------- | ---------------- | ---------------------- |
+| Static assets         | Yes              | —                      |
+| Server rendering      | Yes              | —                      |
+| Image optimization    | Yes              | External: needs loader |
+| ISR (single instance) | Yes              | —                      |
+| ISR (multi-instance)  | No               | Custom cache handler   |
+| Streaming             | Yes              | —                      |

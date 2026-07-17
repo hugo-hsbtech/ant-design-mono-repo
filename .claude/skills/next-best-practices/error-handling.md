@@ -8,21 +8,21 @@ Catches errors in a route segment and its children. Must be a Client Component.
 
 ```tsx
 // app/dashboard/error.tsx
-'use client'
+'use client';
 
 export default function Error({
   error,
   reset,
 }: {
-  error: Error & { digest?: string }
-  reset: () => void
+  error: Error & { digest?: string };
+  reset: () => void;
 }) {
   return (
     <div>
       <h2>Something went wrong!</h2>
       <button onClick={reset}>Try again</button>
     </div>
-  )
+  );
 }
 ```
 
@@ -32,14 +32,14 @@ Handles errors in the root layout. Must include `<html>` and `<body>` tags.
 
 ```tsx
 // app/global-error.tsx
-'use client'
+'use client';
 
 export default function GlobalError({
   error,
   reset,
 }: {
-  error: Error & { digest?: string }
-  reset: () => void
+  error: Error & { digest?: string };
+  reset: () => void;
 }) {
   return (
     <html>
@@ -48,7 +48,7 @@ export default function GlobalError({
         <button onClick={reset}>Try again</button>
       </body>
     </html>
-  )
+  );
 }
 ```
 
@@ -60,35 +60,35 @@ export default function GlobalError({
 // Bad: redirect() throw will be caught and swallowed
 async function action() {
   try {
-    await doSomething()
-    redirect('/success')  // Throws internally!
+    await doSomething();
+    redirect('/success'); // Throws internally!
   } catch (e) {
     // This catches the redirect error — navigation breaks
-    console.error(e)
+    console.error(e);
   }
 }
 
 // Good: redirect() outside try-catch
 async function action() {
   try {
-    await doSomething()
+    await doSomething();
   } catch (e) {
-    console.error(e)
-    throw e
+    console.error(e);
+    throw e;
   }
-  redirect('/success')  // Safe here
+  redirect('/success'); // Safe here
 }
 
 // Good: Use unstable_rethrow inside catch
-import { unstable_rethrow } from 'next/navigation'
+import { unstable_rethrow } from 'next/navigation';
 
 async function action() {
   try {
-    await doSomething()
-    redirect('/success')
+    await doSomething();
+    redirect('/success');
   } catch (e) {
-    unstable_rethrow(e)  // Re-throws Next.js navigation errors
-    console.error(e)     // Only runs for real errors
+    unstable_rethrow(e); // Re-throws Next.js navigation errors
+    console.error(e); // Only runs for real errors
   }
 }
 ```

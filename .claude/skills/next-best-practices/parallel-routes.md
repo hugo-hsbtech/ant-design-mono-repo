@@ -25,15 +25,15 @@ export default function Layout({
   children,
   modal,
 }: {
-  children: React.ReactNode
-  modal: React.ReactNode
+  children: React.ReactNode;
+  modal: React.ReactNode;
 }) {
   return (
     <>
       {children}
       {modal}
     </>
-  )
+  );
 }
 ```
 
@@ -44,7 +44,7 @@ export default function Layout({
 ```tsx
 // app/@modal/default.tsx
 export default function Default() {
-  return null  // Render nothing when no modal is active
+  return null; // Render nothing when no modal is active
 }
 ```
 
@@ -54,20 +54,20 @@ export default function Default() {
 
 ```tsx
 // app/@modal/(.)photo/[id]/page.tsx
-'use client'
-import { useRouter } from 'next/navigation'
+'use client';
+import { useRouter } from 'next/navigation';
 
 export default function PhotoModal({ params }) {
-  const router = useRouter()
+  const router = useRouter();
 
   return (
     <div className="modal-overlay" onClick={() => router.back()}>
-      <div className="modal" onClick={e => e.stopPropagation()}>
+      <div className="modal" onClick={(e) => e.stopPropagation()}>
         <button onClick={() => router.back()}>Close</button>
         {/* modal content */}
       </div>
     </div>
-  )
+  );
 }
 ```
 
@@ -75,12 +75,12 @@ export default function PhotoModal({ params }) {
 
 The matcher system operates on route **segments**, not filesystem paths:
 
-| Convention | Meaning |
-|-----------|---------|
-| `(.)` | Same level segment |
-| `(..)` | One level up segment |
-| `(..)(..)` | Two levels up |
-| `(...)` | From root |
+| Convention | Meaning              |
+| ---------- | -------------------- |
+| `(.)`      | Same level segment   |
+| `(..)`     | One level up segment |
+| `(..)(..)` | Two levels up        |
+| `(...)`    | From root            |
 
 Common misconception: `(..)` means "parent folder" — it actually means "parent route segment."
 
@@ -96,13 +96,9 @@ This is the desired behavior — users bookmarking a photo URL see the full phot
 In Next.js 15+, params in intercepted routes are async:
 
 ```tsx
-export default async function PhotoModal({
-  params,
-}: {
-  params: Promise<{ id: string }>
-}) {
-  const { id } = await params
-  const photo = await getPhoto(id)
+export default async function PhotoModal({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const photo = await getPhoto(id);
   // ...
 }
 ```

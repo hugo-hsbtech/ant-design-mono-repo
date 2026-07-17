@@ -16,6 +16,7 @@ Extract learnings from session history automatically—no user interviews. Focus
 ## When to Use
 
 Invoke this skill:
+
 - After completing a task that involved significant debugging or investigation
 - When you want to capture what was learned during a session
 - At the end of a work session to identify improvement opportunities
@@ -28,6 +29,7 @@ Invoke this skill:
 Analyze the conversation transcript for:
 
 **Friction Indicators:**
+
 - Multiple attempts or iterations to solve the same problem
 - Repeated clarifications needed from the user
 - Difficulty finding files or understanding codebase structure
@@ -36,12 +38,14 @@ Analyze the conversation transcript for:
 - Trial-and-error debugging that could have been avoided
 
 **Success Indicators:**
+
 - What worked well and should be preserved
 - Effective use of tools, skills, or documentation
 - Clear patterns that were followed correctly
 - Efficient problem-solving approaches
 
 **Non-Obvious Discoveries:**
+
 - Solutions that required investigation beyond documentation
 - Patterns or conventions discovered through code exploration
 - Error messages that were misleading or required interpretation
@@ -52,7 +56,9 @@ Analyze the conversation transcript for:
 Organize discoveries into categories:
 
 #### CLAUDE.md Updates
+
 Conventions, patterns, or pitfalls that should be added to project-level CLAUDE.md:
+
 - Code patterns that agents frequently get wrong
 - Project-specific conventions not obvious from code
 - Known pitfalls or error-prone areas
@@ -65,35 +71,42 @@ When proposing CLAUDE.md updates, specify the target file path explicitly.
 
 **Hierarchy principle**: Place guidance at the most specific level where it applies.
 
-| Level | Path Pattern | Content |
-|-------|--------------|---------|
-| Monorepo | `/CLAUDE.md` | Cross-cutting: testing standards, shared conventions |
-| Claude-specific | `/.claude/CLAUDE.md` | Skill usage, GitHub workflows, tool patterns |
-| Submodule | `/<submodule>/CLAUDE.md` | Architecture, tech stack, domain patterns |
-| Subdirectory | `/<submodule>/<dir>/CLAUDE.md` | Local conventions, gotchas, specialized patterns |
+| Level           | Path Pattern                   | Content                                              |
+| --------------- | ------------------------------ | ---------------------------------------------------- |
+| Monorepo        | `/CLAUDE.md`                   | Cross-cutting: testing standards, shared conventions |
+| Claude-specific | `/.claude/CLAUDE.md`           | Skill usage, GitHub workflows, tool patterns         |
+| Submodule       | `/<submodule>/CLAUDE.md`       | Architecture, tech stack, domain patterns            |
+| Subdirectory    | `/<submodule>/<dir>/CLAUDE.md` | Local conventions, gotchas, specialized patterns     |
 
 **Before adding to a CLAUDE.md**:
+
 1. Check if guidance already exists in a parent CLAUDE.md (avoid duplication)
 2. Determine scope: applies broadly (parent) or specifically (this directory)
 3. For testing patterns, reference the testing docs index rather than duplicating
 4. Convert legacy `.cursorrules`/`.claude-rules` files to CLAUDE.md format when found
 
 #### Documentation Gaps
+
 Missing or outdated documentation:
+
 - Guides that don't exist but should
 - Outdated documentation that caused confusion
 - Unclear explanations of architecture or patterns
 - Missing examples or usage instructions
 
 #### Skill Candidates
+
 Knowledge worth extracting to reusable skills:
+
 - Non-obvious debugging techniques discovered
 - Tool integration patterns that required experimentation
 - Project-specific workflows that apply across tasks
 - Error resolution patterns that could recur
 
 #### Codebase Issues
+
 Structural problems that made the task harder:
+
 - Components that are too large or poorly organized
 - Unclear naming that caused confusion
 - Missing abstractions that would help
@@ -102,6 +115,7 @@ Structural problems that made the task harder:
 ### Step 3: Propose Concrete Improvements
 
 For each finding, provide:
+
 - **Specific problem**: What made the task harder?
 - **Root cause**: Why did this happen?
 - **Proposed fix**: Exact change to make (with diffs/patches when applicable)
@@ -125,7 +139,7 @@ Use these to guide analysis:
 
 Generate a structured retrospective with this format:
 
-```markdown
+````markdown
 # Session Retrospective: [Brief Task Description]
 
 **Date:** [Today's date]
@@ -145,7 +159,7 @@ Generate a structured retrospective with this format:
 
 - [Success 1]
 - [Success 2]
-...
+  ...
 
 ---
 
@@ -154,11 +168,13 @@ Generate a structured retrospective with this format:
 [Specific struggles with examples from the session]
 
 ### [Friction Category 1]
+
 **Problem:** [What happened]
 **Example:** [Quote or reference from session]
 **Root Cause:** [Why it happened]
 
 ### [Friction Category 2]
+
 ...
 
 ---
@@ -168,12 +184,15 @@ Generate a structured retrospective with this format:
 ### CLAUDE.md Updates
 
 #### [Update 1: Title]
+
 **Rationale:** [Why this is needed]
 
 **Proposed Addition:**
+
 ```markdown
 [Exact text to add to CLAUDE.md]
 ```
+````
 
 **Location:** [Where in CLAUDE.md this should go]
 
@@ -182,6 +201,7 @@ Generate a structured retrospective with this format:
 ### Documentation
 
 #### [Doc Update 1: Title]
+
 **Issue:** [What's missing or wrong]
 **Proposed Fix:** [What to create/update]
 **Priority:** [High/Medium/Low]
@@ -191,11 +211,13 @@ Generate a structured retrospective with this format:
 ### Skill Candidates
 
 #### [Skill 1: Name]
+
 **Trigger Conditions:** [When would this skill be useful?]
 **Knowledge to Capture:** [What should the skill contain?]
 **Priority:** [High/Medium/Low]
 
 **Proposed Skill Description:**
+
 ```
 [Draft description following skill pattern]
 ```
@@ -205,6 +227,7 @@ Generate a structured retrospective with this format:
 ### Codebase Improvements
 
 #### [Improvement 1: Title]
+
 **Problem:** [Structural issue that caused friction]
 **Impact:** [How this affects development]
 **Suggested Refactoring:** [What to change]
@@ -218,13 +241,14 @@ Generate a structured retrospective with this format:
 - [ ] Review proposed CLAUDE.md updates and submit PR
 - [ ] Create issues for high-priority codebase improvements
 - [ ] Consider implementing high-priority skill candidates
-...
+      ...
 
 ---
 
 ## Notes
 
 [Any additional context, caveats, or observations]
+
 ```
 
 ## Quality Standards
@@ -250,7 +274,9 @@ When referencing files in retrospectives:
 
 Save retrospectives to:
 ```
+
 docs/retrospectives/YYYY-MM-DD-task-slug.md
+
 ```
 
 Create the directory if it doesn't exist.
@@ -277,3 +303,4 @@ The goal is continuous improvement through objective analysis. Focus on:
 - Patterns that will genuinely help future sessions
 - Root causes, not just symptoms
 - Preserving successes as well as addressing failures
+```

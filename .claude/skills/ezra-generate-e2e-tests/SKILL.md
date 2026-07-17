@@ -13,12 +13,13 @@ Orchestrates e2e Playwright test generation from specs defined in test plan file
 This is a multi-app monorepo. Each app has its own backend API and frontend.
 NEVER mix APIs or apps that are not related to each other.
 
-| App | Frontend | Dev API | E2E API | E2E Tests |
-|-----|----------|---------|---------|-----------|
-| app | localhost:3000 | localhost:8000 | localhost:18000 | frontend/apps/app/tests/e2e/ |
+| App     | Frontend       | Dev API        | E2E API         | E2E Tests                        |
+| ------- | -------------- | -------------- | --------------- | -------------------------------- |
+| app     | localhost:3000 | localhost:8000 | localhost:18000 | frontend/apps/app/tests/e2e/     |
 | example | localhost:3001 | localhost:8001 | localhost:18001 | frontend/apps/example/tests/e2e/ |
 
 E2E infrastructure (managed by globalSetup/globalTeardown):
+
 - **Testcontainers Postgres** on random port (isolated, ephemeral DB)
 - **FastAPI subprocess** on fixed E2E port (18000) — NOT dev API (8000)
 - **webServer** starts Next.js with `NEXT_PUBLIC_API_URL=http://localhost:18000`
@@ -52,17 +53,17 @@ E2E infrastructure (managed by globalSetup/globalTeardown):
 
 Read the following files to understand patterns and requirements:
 
-| Resource | Path | Purpose |
-|----------|------|---------|
-| Test plan | (user-provided or default) | Spec definitions |
-| Testing standards | `docs/development-guides/testing-standards.md` | E2E best practices |
-| Playwright config | `frontend/apps/{app}/playwright.config.ts` | Test runner config |
-| Page fixtures | `frontend/apps/{app}/tests/e2e/fixtures/pages.fixture.ts` | POM fixtures |
-| Data fixtures | `frontend/apps/{app}/tests/e2e/fixtures/data.fixture.ts` | Data seeding pattern |
-| Environment config | `frontend/apps/{app}/tests/e2e/config/environments.ts` | API URLs |
-| Existing POMs | `frontend/apps/{app}/tests/e2e/poms/` (glob `**/*.ts`) | POM patterns |
-| Existing specs | `frontend/apps/{app}/tests/e2e/specs/` (glob `**/*.spec.ts`) | Test patterns |
-| E2E mock handlers | `frontend/apps/{app}/tests/e2e/mocks/handlers/` | Network mocking |
+| Resource           | Path                                                         | Purpose              |
+| ------------------ | ------------------------------------------------------------ | -------------------- |
+| Test plan          | (user-provided or default)                                   | Spec definitions     |
+| Testing standards  | `docs/development-guides/testing-standards.md`               | E2E best practices   |
+| Playwright config  | `frontend/apps/{app}/playwright.config.ts`                   | Test runner config   |
+| Page fixtures      | `frontend/apps/{app}/tests/e2e/fixtures/pages.fixture.ts`    | POM fixtures         |
+| Data fixtures      | `frontend/apps/{app}/tests/e2e/fixtures/data.fixture.ts`     | Data seeding pattern |
+| Environment config | `frontend/apps/{app}/tests/e2e/config/environments.ts`       | API URLs             |
+| Existing POMs      | `frontend/apps/{app}/tests/e2e/poms/` (glob `**/*.ts`)       | POM patterns         |
+| Existing specs     | `frontend/apps/{app}/tests/e2e/specs/` (glob `**/*.spec.ts`) | Test patterns        |
+| E2E mock handlers  | `frontend/apps/{app}/tests/e2e/mocks/handlers/`              | Network mocking      |
 
 ### Extract Spec Details
 
@@ -87,8 +88,8 @@ From the test plan, parse the spec section to extract:
 3. Example structure:
 
 ```ts
-import { BasePage } from "./base.page";
-import type { Page } from "@playwright/test";
+import { BasePage } from './base.page';
+import type { Page } from '@playwright/test';
 
 export class NewPage extends BasePage {
   constructor(page: Page) {
@@ -96,8 +97,7 @@ export class NewPage extends BasePage {
   }
 
   // Locators — A11y-first
-  readonly submitButton = () =>
-    this.page.getByRole("button", { name: "Submit" });
+  readonly submitButton = () => this.page.getByRole('button', { name: 'Submit' });
 
   // Actions
   async submit() {
@@ -159,12 +159,14 @@ seededDeal: async ({}, use) => {
 ```
 
 **Why direct DB over API calls:**
+
 - No auth tokens needed — bypasses Clerk entirely for seeding
 - Faster — no HTTP overhead
 - More reliable — no token expiry, no race conditions
 - Connection string comes from `E2E_DATABASE_URL` env var set by global-setup
 
 **Rules:**
+
 - One fixture = one entity. Compose via fixture dependencies.
 - Always use `crypto.randomUUID()` for unique identifiers.
 - Cleanup in fixture teardown (code after `await use()`).
@@ -178,7 +180,7 @@ seededDeal: async ({}, use) => {
 **Register new POM in `frontend/apps/{app}/tests/e2e/fixtures/pages.fixture.ts`:**
 
 ```ts
-import { NewPage } from "../poms";
+import { NewPage } from '../poms';
 
 // Add fixture
 newPage: async ({ page }, use) => {
@@ -193,9 +195,9 @@ newPage: async ({ page }, use) => {
 **Pattern: Use reusable handlers from `tests/e2e/mocks/handlers/`**
 
 ```ts
-import { mockS3Upload } from "@tests/e2e/mocks/handlers";
+import { mockS3Upload } from '@tests/e2e/mocks/handlers';
 
-test("creates item with file", async ({ page, newPage }) => {
+test('creates item with file', async ({ page, newPage }) => {
   await mockS3Upload(page);
   // ... test steps ...
 });
@@ -209,14 +211,14 @@ test("creates item with file", async ({ page, newPage }) => {
 
 ```ts
 // tests/e2e/mocks/handlers/notifications.ts
-import { Page } from "@playwright/test";
+import { Page } from '@playwright/test';
 
 export async function mockEmailSend(page: Page): Promise<void> {
-  await page.route("**/api/notifications/email", async (route) => {
-    if (route.request().method() !== "POST") {
+  await page.route('**/api/notifications/email', async (route) => {
+    if (route.request().method() !== 'POST') {
       return route.fallback();
     }
-    await route.fulfill({ status: 200, body: "" });
+    await route.fulfill({ status: 200, body: '' });
   });
 }
 ```
@@ -358,6 +360,7 @@ Read the generated/healed test file fully and check:
 **TypeScript verification (MANDATORY — run after every generation):**
 
 Run `pnpm --filter @ezra/{app} check-types` after generating E2E files. Fix ALL TS errors before presenting results. Common issues:
+
 - `protected` properties: BasePage.page MUST be `public` for specs to access it
 - Missing type declarations: import `faker` from `@ezra/test-utils/factories/setup`, NOT `@faker-js/faker` (not in app devDeps)
 - Unused destructured fixture params: prefix with `_` (e.g., `seededDeal: _seededDeal`) — this is the Playwright pattern for activating a fixture without referencing its value
@@ -422,9 +425,9 @@ seededDeal: async ({}, use) => {
 `closePool()` in `global-teardown.ts` closes all `pg` connections before stopping containers:
 
 ```ts
-import { closePool } from "./db/seed";
+import { closePool } from './db/seed';
 async function globalTeardown() {
-  await closePool();  // close pg connections first
+  await closePool(); // close pg connections first
   // then stop FastAPI, then Postgres container
 }
 ```

@@ -54,10 +54,7 @@ export const WithExtra: Story = {
     items: items.map((item) => ({
       ...item,
       extra: (
-        <SettingOutlined
-          aria-label="Panel settings"
-          onClick={(event) => event.stopPropagation()}
-        />
+        <SettingOutlined aria-label="Panel settings" onClick={(event) => event.stopPropagation()} />
       ),
     })),
   },

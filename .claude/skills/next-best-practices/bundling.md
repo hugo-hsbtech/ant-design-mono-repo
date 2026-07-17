@@ -11,9 +11,9 @@ Errors like `window is not defined` or `Can't resolve 'fs'` indicate server/brow
 For client-only libraries (Recharts, React Quill, etc.):
 
 ```tsx
-import dynamic from 'next/dynamic'
+import dynamic from 'next/dynamic';
 
-const Chart = dynamic(() => import('./Chart'), { ssr: false })
+const Chart = dynamic(() => import('./Chart'), { ssr: false });
 ```
 
 ### Solution 2: Externalize Packages
@@ -24,7 +24,7 @@ For packages with native bindings (Sharp, Bcrypt) or circular deps:
 // next.config.js
 module.exports = {
   serverExternalPackages: ['sharp', 'bcrypt'],
-}
+};
 ```
 
 ### Solution 3: Client Component Wrapper
@@ -37,7 +37,7 @@ Always import CSS via JS imports, never `<link>` tags in components:
 
 ```tsx
 // Good
-import './styles.css'
+import './styles.css';
 
 // Bad - don't use <link> tags for CSS in Next.js
 ```
@@ -54,7 +54,7 @@ If you get ESM/CJS conflicts, use `transpilePackages`:
 // next.config.js
 module.exports = {
   transpilePackages: ['some-esm-package'],
-}
+};
 ```
 
 ## Bundle Analysis
@@ -82,5 +82,5 @@ module.exports = {
       },
     },
   },
-}
+};
 ```

@@ -13,14 +13,14 @@ Always type params as `Promise<...>` and await them:
 ```tsx
 // app/blog/[slug]/page.tsx
 type Props = {
-  params: Promise<{ slug: string }>
-  searchParams: Promise<{ q?: string }>
-}
+  params: Promise<{ slug: string }>;
+  searchParams: Promise<{ q?: string }>;
+};
 
 export default async function Page({ params, searchParams }: Props) {
-  const { slug } = await params
-  const { q } = await searchParams
-  return <div>{slug}</div>
+  const { slug } = await params;
+  const { q } = await searchParams;
+  return <div>{slug}</div>;
 }
 ```
 
@@ -28,12 +28,9 @@ export default async function Page({ params, searchParams }: Props) {
 
 ```tsx
 // app/api/posts/[id]/route.ts
-export async function GET(
-  request: Request,
-  { params }: { params: Promise<{ id: string }> }
-) {
-  const { id } = await params
-  return Response.json({ id })
+export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  return Response.json({ id });
 }
 ```
 
@@ -42,12 +39,12 @@ export async function GET(
 Use React's `use()` hook to unwrap without making component async:
 
 ```tsx
-'use client'
-import { use } from 'react'
+'use client';
+import { use } from 'react';
 
 export function ClientPage({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = use(params)
-  return <div>{slug}</div>
+  const { slug } = use(params);
+  return <div>{slug}</div>;
 }
 ```
 
@@ -55,22 +52,22 @@ export function ClientPage({ params }: { params: Promise<{ slug: string }> }) {
 
 ```tsx
 export async function generateMetadata({ params }: Props) {
-  const { slug } = await params
-  return { title: slug }
+  const { slug } = await params;
+  return { title: slug };
 }
 ```
 
 ### Cookies and Headers
 
 ```tsx
-import { cookies, headers } from 'next/headers'
+import { cookies, headers } from 'next/headers';
 
 export default async function Page() {
-  const cookieStore = await cookies()
-  const headersList = await headers()
+  const cookieStore = await cookies();
+  const headersList = await headers();
 
-  const token = cookieStore.get('token')?.value
-  const ua = headersList.get('user-agent')
+  const token = cookieStore.get('token')?.value;
+  const ua = headersList.get('user-agent');
 }
 ```
 

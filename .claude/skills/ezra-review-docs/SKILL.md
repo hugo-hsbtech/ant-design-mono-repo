@@ -18,28 +18,28 @@ You are a rigorous documentation reviewer performing a "fresh eyes" pass. Your j
 
 When given a target (directory, file, or objective), constrain your review accordingly:
 
-| Target Type             | Behavior                                              |
-| ----------------------- | ----------------------------------------------------- |
-| Directory               | Review all .md files in that directory (recursive)    |
-| Single file             | Deep review of that file only                         |
-| Objective               | Review files relevant to the stated objective         |
-| Cross-reference check   | Verify links, consistency across specified files      |
+| Target Type           | Behavior                                           |
+| --------------------- | -------------------------------------------------- |
+| Directory             | Review all .md files in that directory (recursive) |
+| Single file           | Deep review of that file only                      |
+| Objective             | Review files relevant to the stated objective      |
+| Cross-reference check | Verify links, consistency across specified files   |
 
 ## ISSUE TAXONOMY
 
 Use these codes to categorize every finding:
 
-| Code | Category            | Examples                                                      |
-| ---- | ------------------- | ------------------------------------------------------------- |
-| E1   | Contradiction       | Doc A says X, Doc B says Y; internal inconsistency            |
-| E2   | Missing dependency  | Step requires something undefined; broken internal link       |
-| E3   | Ambiguity           | Vague terms ("appropriate", "soon", "properly"); unclear ownership |
-| E4   | Unstated assumption | Relies on knowledge not documented anywhere in scope          |
-| E5   | Missing failure mode| No troubleshooting, no rollback, no "if this fails"           |
-| E6   | Incomplete coverage | Template section missing; stated goal lacks corresponding content |
-| E7   | Stale/redundant     | Duplicated info; outdated references; dead links              |
-| E8   | Structure/ordering  | Illogical flow; prerequisite info appears after dependent step|
-| E9   | Template violation  | Doc doesn't follow its corresponding `_templates/` structure  |
+| Code | Category             | Examples                                                           |
+| ---- | -------------------- | ------------------------------------------------------------------ |
+| E1   | Contradiction        | Doc A says X, Doc B says Y; internal inconsistency                 |
+| E2   | Missing dependency   | Step requires something undefined; broken internal link            |
+| E3   | Ambiguity            | Vague terms ("appropriate", "soon", "properly"); unclear ownership |
+| E4   | Unstated assumption  | Relies on knowledge not documented anywhere in scope               |
+| E5   | Missing failure mode | No troubleshooting, no rollback, no "if this fails"                |
+| E6   | Incomplete coverage  | Template section missing; stated goal lacks corresponding content  |
+| E7   | Stale/redundant      | Duplicated info; outdated references; dead links                   |
+| E8   | Structure/ordering   | Illogical flow; prerequisite info appears after dependent step     |
+| E9   | Template violation   | Doc doesn't follow its corresponding `_templates/` structure       |
 
 ## OUTPUT FORMAT
 
@@ -59,12 +59,15 @@ Produce this exact structure:
 ### `<filepath>`
 
 **Critical Issues**
+
 - `[CODE]` **Line/Section:** <quote or location> → **Problem:** <specific> → **Fix:** <concrete>
 
 **Major Issues**
+
 - `[CODE]` ...
 
 **Minor Issues**
+
 - `[CODE]` ...
 
 (Repeat for each file with issues. Omit files with no issues.)
@@ -74,6 +77,7 @@ Produce this exact structure:
 ## CROSS-CUTTING ISSUES
 
 Issues that span multiple files:
+
 - `[CODE]` **Files:** <list> → **Problem:** <specific> → **Fix:** <concrete>
 
 (Write "None" if all issues are file-local)
@@ -85,6 +89,7 @@ Issues that span multiple files:
 For each file you modify, provide:
 
 ### `<filepath>`
+
 <The specific changes made, as a diff or clear before/after>
 
 ---
@@ -98,6 +103,7 @@ For each file you modify, provide:
 ## REMAINING CONCERNS
 
 Issues you identified but couldn't resolve (need human input, external info, etc.):
+
 - <concern>
 ```
 
@@ -117,6 +123,7 @@ Issues you identified but couldn't resolve (need human input, external info, etc
 ## PLAN MODE COMPATIBILITY
 
 **Note:** This skill makes edits to files. If you're in plan mode, you must exit plan mode before applying fixes:
+
 - Press `Shift+Tab` to cycle to normal/auto-accept mode
 - Or complete your review, then exit plan mode and re-invoke the skill
 

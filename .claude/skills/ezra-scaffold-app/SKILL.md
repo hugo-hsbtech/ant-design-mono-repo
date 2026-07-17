@@ -16,6 +16,7 @@ Scaffolds a new app (frontend or backend) in the Ezra platform monorepo, creatin
 ```
 
 **Parameters:**
+
 - `side` (required): `backend` or `frontend`
 - `name` (required): app name in kebab-case (e.g., `billing`, `risk-engine`)
 - `--port` (required): the port the app listens on
@@ -27,6 +28,7 @@ Scaffolds a new app (frontend or backend) in the Ezra platform monorepo, creatin
 ## Authentication Default
 
 **All backend API apps that expose data from the database MUST include authentication by default.** This means:
+
 - The `ezra-authentication` domain package is included as a dependency
 - Clerk JWT verification is wired into the lifespan
 - A `require_auth` dependency is created for protecting routes
@@ -38,16 +40,16 @@ Only skip authentication if the user explicitly requests it (e.g., `--no-auth` o
 
 Derive all names from the `name` parameter:
 
-| Derived Name | Pattern | Example (`name=deal-triage`) |
-|---|---|---|
-| Package name (backend) | `ezra-{name}` | `ezra-deal-triage` |
-| Python module | `ezra_{name_underscored}` | `ezra_deal_triage` |
-| Package name (frontend) | `@ezra/{name}` | `@ezra/deal-triage` |
-| Docker Compose service | `{name}` / `{name}-dev` | `deal-triage` / `deal-triage-dev` |
-| Docker volume (backend) | `{name_underscored}_venv` | `deal_triage_venv` |
-| Docker volume (frontend) | `{name_underscored}_node_modules` | `deal_triage_node_modules` |
-| Terraform app dir | `infrastructure/apps/{name}/` | `infrastructure/apps/deal-triage/` |
-| CI filter name | `{name}` or `{name}-frontend` | `deal-triage-frontend` |
+| Derived Name             | Pattern                           | Example (`name=deal-triage`)       |
+| ------------------------ | --------------------------------- | ---------------------------------- |
+| Package name (backend)   | `ezra-{name}`                     | `ezra-deal-triage`                 |
+| Python module            | `ezra_{name_underscored}`         | `ezra_deal_triage`                 |
+| Package name (frontend)  | `@ezra/{name}`                    | `@ezra/deal-triage`                |
+| Docker Compose service   | `{name}` / `{name}-dev`           | `deal-triage` / `deal-triage-dev`  |
+| Docker volume (backend)  | `{name_underscored}_venv`         | `deal_triage_venv`                 |
+| Docker volume (frontend) | `{name_underscored}_node_modules` | `deal_triage_node_modules`         |
+| Terraform app dir        | `infrastructure/apps/{name}/`     | `infrastructure/apps/deal-triage/` |
+| CI filter name           | `{name}` or `{name}-frontend`     | `deal-triage-frontend`             |
 
 ---
 
@@ -371,6 +373,7 @@ frontend/apps/{name}/
 **CRITICAL**: Check `frontend/apps/app/package.json` for current pinned versions before writing. Never use `^` or `~`.
 
 If `--auth clerk` is specified, also add to dependencies:
+
 ```json
     "@clerk/nextjs": "7.0.7"
 ```
@@ -378,11 +381,11 @@ If `--auth clerk` is specified, also add to dependencies:
 #### `next.config.ts`
 
 ```ts
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  output: "standalone",
-  transpilePackages: ["@ezra/design-system", "@ezra/api-client"],
+  output: 'standalone',
+  transpilePackages: ['@ezra/design-system', '@ezra/api-client'],
 };
 
 export default nextConfig;
@@ -422,7 +425,7 @@ Check `frontend/apps/app/postcss.config.mjs` for the current pattern and replica
 #### `src/app/globals.css`
 
 ```css
-@import "@ezra/design-system/styles";
+@import '@ezra/design-system/styles';
 
 @source "../../../../packages/design-system/src/**/*.{ts,tsx}";
 ```
@@ -432,18 +435,18 @@ Check `frontend/apps/app/postcss.config.mjs` for the current pattern and replica
 **Without Clerk auth:**
 
 ```tsx
-import type { Metadata } from "next";
-import { Geologica, Roboto_Mono } from "next/font/google";
-import { QueryProvider } from "@ezra/api-client/providers/queryProvider";
-import { Theme } from "@radix-ui/themes";
-import "./globals.css";
+import type { Metadata } from 'next';
+import { Geologica, Roboto_Mono } from 'next/font/google';
+import { QueryProvider } from '@ezra/api-client/providers/queryProvider';
+import { Theme } from '@radix-ui/themes';
+import './globals.css';
 
-const geologica = Geologica({ variable: "--font-geologica", subsets: ["latin"] });
-const robotoMono = Roboto_Mono({ variable: "--font-roboto-mono", subsets: ["latin"] });
+const geologica = Geologica({ variable: '--font-geologica', subsets: ['latin'] });
+const robotoMono = Roboto_Mono({ variable: '--font-roboto-mono', subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: "Ezra {TitleCase name}",
-  description: "Ezra {TitleCase name}",
+  title: 'Ezra {TitleCase name}',
+  description: 'Ezra {TitleCase name}',
 };
 
 export default function RootLayout({
@@ -482,6 +485,7 @@ export default function HomePage() {
 #### `Dockerfile`
 
 Follow the exact multi-stage pattern from `frontend/apps/deal-triage/Dockerfile`, replacing:
+
 - `@ezra/deal-triage` with `@ezra/{name}`
 - `apps/deal-triage` with `apps/{name}`
 - Port `3001` with `{port}`
@@ -578,6 +582,7 @@ After scaffolding, inform the user about these additional registration points th
 ### Infrastructure (when ready to deploy)
 
 Create `infrastructure/apps/{name}/` with:
+
 - `main.tf` — calls `../../modules/backend-ecs` or `../../modules/frontend-ecs`
 - `variables.tf` — standard variables (see `infrastructure/apps/deal-triage/variables.tf` as template)
 - `outputs.tf` — export service URL, ARNs as needed
@@ -598,12 +603,14 @@ Register in `infrastructure/aws/main.tf` as a new module.
 ### Testing (after implementing features)
 
 Run the test scaffolding skills:
+
 - Backend: `/ezra-scaffold-backend-tests packages/apps/{name}`
 - Frontend: `/ezra-scaffold-frontend-app-tests {name} --frontend-port {port}`
 
 ### API Codegen (if frontend talks to a new backend service)
 
 Follow `frontend/CLAUDE.md` "Adding a new backend service" section:
+
 1. Add entry to `orval.config.ts`
 2. Create mutator in `src/mutators/{name}.ts`
 3. Add subpath exports to `@ezra/api-client/package.json`

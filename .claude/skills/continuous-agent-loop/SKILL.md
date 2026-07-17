@@ -25,6 +25,7 @@ Start
 ## Combined Pattern
 
 Recommended production stack:
+
 1. quality gates (`/quality-gate`)
 2. eval loop (`eval-harness`)
 

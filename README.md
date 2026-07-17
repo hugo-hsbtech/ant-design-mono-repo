@@ -73,7 +73,7 @@ typescript-config / eslint-config / test-config / tsup-config ──► todos
 ## Stack
 
 pnpm workspaces · Turborepo · TypeScript · Ant Design v5 · Next.js 15 (App Router) ·
-Storybook 10 (`nextjs-vite`) · Vitest · Playwright · Changesets.
+Storybook 10 (`nextjs-vite`) · Vitest · Playwright · nx release.
 
 ## Começando (novo engenheiro)
 
@@ -97,7 +97,7 @@ pnpm build | lint | typecheck | test   # gates de qualidade
 pnpm test:storybook                    # testes de componente (Storybook Test)
 pnpm test:e2e                          # E2E (Playwright, apps/web)
 pnpm build:storybook                   # catálogo estático
-pnpm changeset                         # changeset para release
+pnpm release:dry                       # prévia (dry-run) do próximo release por pacote
 pnpm gen                               # scaffolding de novo app (turbo gen)
 ```
 
@@ -168,7 +168,44 @@ do antd, com mensagens e o mapa locale→antd em
 - Stories vivem em `apps/storybook/stories/**` (compartilhadas) ou co-localizadas
   nos apps (`apps/<app>/src/**/*.stories.tsx`) — nunca dentro de `design-system`.
 - Sem cor/spacing hardcoded — sempre via tokens.
-- Commits convencionais (commitlint + husky); releases com Changesets.
+- Commits convencionais (commitlint + husky); releases por pacote com `nx release`
+  (ver [Versionamento e Releases](#versionamento-e-releases)).
+
+## Versionamento e Releases
+
+Cada projeto do workspace (`apps/*` + `packages/*`) é versionado de forma
+**independente**, a partir dos **Conventional Commits** (já validados pelo commitlint).
+O motor é o `nx release` — o Turborepo continua sendo o runner de build/testes; o Nx
+entra **apenas** para releases (config em `nx.json`).
+
+- **Automático no merge para `main`:** o workflow `.github/workflows/release.yml` roda
+  `nx release`, que calcula o bump de cada projeto, atualiza `package.json` + `CHANGELOG.md`,
+  cria a tag `<projeto>@<versão>` e publica um GitHub Release. Projetos sem commits
+  relevantes são ignorados. Não há publicação em npm (todos os pacotes são `private`).
+- **Prévia local:** `pnpm release:dry` (`nx release --dry-run`) mostra os bumps, changelogs
+  e tags que seriam gerados, sem alterar nada.
+- **Bump abaixo de `1.0.0`:** enquanto o major for `0`, o Nx aplica a regra de
+  pré-lançamento — um `feat` incrementa o rank de _patch_ (ex.: `0.1.0 → 0.1.1`) e um
+  breaking change incrementa o _minor_. Depois de `1.0.0`, vale o semver padrão
+  (`feat`→minor, `fix`/`perf`→patch, `!`/`BREAKING CHANGE`→major).
+- **Dependências internas:** ao subir uma lib (ex.: `@repo/utils`), os consumidores
+  (`@repo/design-system` e os apps) recebem um bump de _patch_ automaticamente.
+
+### Bootstrap do primeiro release (uma vez)
+
+Como ainda não existem tags `<projeto>@<versão>`, o **primeiro** release precisa ser
+rodado uma única vez com `--first-release`, por um mantenedor com permissão de push em
+`main` (ou via execução manual do workflow):
+
+```bash
+pnpm nx release --first-release
+```
+
+A partir daí, as tags-base existem e o workflow segue com o comando padrão a cada merge.
+
+> **Proteção de branch:** se `main` for protegida, o push de volta feito pelo workflow
+> será bloqueado. Nesse caso, forneça um PAT/GitHub App token com bypass ou troque o
+> fluxo para abrir um _release PR_. Documentado aqui, não resolvido no workflow atual.
 
 ## Documentação
 

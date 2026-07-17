@@ -25,27 +25,27 @@ Push `'use client'` to the leaves. Every component is a Server Component by defa
 
 ```tsx
 // Bad: marking a layout or page as client just to use one hook
-'use client'
+'use client';
 
 export default function DashboardPage() {
-  const [open, setOpen] = useState(false)
-  const data = await db.reports.findMany()  // can't do this in a client component anyway
-  return <Dashboard data={data} open={open} />
+  const [open, setOpen] = useState(false);
+  const data = await db.reports.findMany(); // can't do this in a client component anyway
+  return <Dashboard data={data} open={open} />;
 }
 ```
 
 ```tsx
 // Good: Server Component fetches data, client component handles state
 export default async function DashboardPage() {
-  const data = await db.reports.findMany()
-  return <Dashboard data={data} />
+  const data = await db.reports.findMany();
+  return <Dashboard data={data} />;
 }
 
 // dashboard.tsx
-'use client'
+('use client');
 export function Dashboard({ data }: { data: Report[] }) {
-  const [open, setOpen] = useState(false)
-  return <>{/* ... */}</>
+  const [open, setOpen] = useState(false);
+  return <>{/* ... */}</>;
 }
 ```
 
@@ -58,24 +58,24 @@ Next.js 15+ made `params`, `searchParams`, `cookies()`, and `headers()` async. A
 ```tsx
 // Bad: synchronous access (Next.js 14 style — throws in 15+)
 export default function Page({ params }: { params: { slug: string } }) {
-  return <h1>{params.slug}</h1>
+  return <h1>{params.slug}</h1>;
 }
 ```
 
 ```tsx
 // Good: await params
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = await params
-  return <h1>{slug}</h1>
+  const { slug } = await params;
+  return <h1>{slug}</h1>;
 }
 
 // Good: await cookies/headers
-import { cookies } from 'next/headers'
+import { cookies } from 'next/headers';
 
 export default async function Page() {
-  const cookieStore = await cookies()
-  const token = cookieStore.get('token')
-  return <>{/* ... */}</>
+  const cookieStore = await cookies();
+  const token = cookieStore.get('token');
+  return <>{/* ... */}</>;
 }
 ```
 
@@ -87,28 +87,24 @@ See [async-patterns.md](./async-patterns.md) for the full list of affected APIs.
 
 Three ways to load data — choose based on who needs it and when.
 
-| Pattern | Use for |
-|---|---|
+| Pattern                        | Use for                                               |
+| ------------------------------ | ----------------------------------------------------- |
 | Server Component `async/await` | Page-level data, data that never needs client refresh |
-| Server Action | Mutations, form submissions, write operations |
-| Route Handler | Webhooks, external API callbacks, non-React consumers |
+| Server Action                  | Mutations, form submissions, write operations         |
+| Route Handler                  | Webhooks, external API callbacks, non-React consumers |
 
 Avoid waterfalls. Fetch independent data in parallel.
 
 ```tsx
 // Bad: sequential fetches — total time = A + B + C
-const user = await getUser(id)
-const posts = await getPosts(id)
-const followers = await getFollowers(id)
+const user = await getUser(id);
+const posts = await getPosts(id);
+const followers = await getFollowers(id);
 ```
 
 ```tsx
 // Good: parallel — total time = max(A, B, C)
-const [user, posts, followers] = await Promise.all([
-  getUser(id),
-  getPosts(id),
-  getFollowers(id),
-])
+const [user, posts, followers] = await Promise.all([getUser(id), getPosts(id), getFollowers(id)]);
 ```
 
 For deep component trees where a child needs data the parent already fetched, use the `preload` pattern instead of prop-drilling. See [data-patterns.md](./data-patterns.md).
@@ -125,31 +121,31 @@ Never put `'use server'` at the file level unless every export in that file is a
 
 ## Error Handling
 
-| File | Handles |
-|---|---|
-| `error.tsx` | Runtime errors in a route segment and its children |
+| File               | Handles                                              |
+| ------------------ | ---------------------------------------------------- |
+| `error.tsx`        | Runtime errors in a route segment and its children   |
 | `global-error.tsx` | Errors in the root layout — replaces the entire page |
-| `not-found.tsx` | `notFound()` throws and 404 responses |
+| `not-found.tsx`    | `notFound()` throws and 404 responses                |
 
 `error.tsx` must be a Client Component (`'use client'`). It receives `error` and `reset` props.
 
 ```tsx
 // app/dashboard/error.tsx
-'use client'
+'use client';
 
 export default function DashboardError({
   error,
   reset,
 }: {
-  error: Error & { digest?: string }
-  reset: () => void
+  error: Error & { digest?: string };
+  reset: () => void;
 }) {
   return (
     <div>
       <p>Something went wrong in the dashboard.</p>
       <button onClick={reset}>Try again</button>
     </div>
-  )
+  );
 }
 ```
 
@@ -161,11 +157,11 @@ Never use `<img>`. Always use `next/image`.
 
 ```tsx
 // Bad
-<img src="/hero.jpg" alt="Hero" />
+<img src="/hero.jpg" alt="Hero" />;
 
 // Good
-import Image from 'next/image'
-<Image src="/hero.jpg" alt="Hero" width={1200} height={630} priority />
+import Image from 'next/image';
+<Image src="/hero.jpg" alt="Hero" width={1200} height={630} priority />;
 ```
 
 Set `priority` on the LCP image. Set `sizes` on any image that changes size across breakpoints. See [image.md](./image.md).
@@ -179,16 +175,16 @@ Never load fonts with `<link>` tags or `@import`. Use `next/font`.
 // <link rel="preconnect" href="https://fonts.googleapis.com"> in layout
 
 // Good
-import { Inter } from 'next/font/google'
+import { Inter } from 'next/font/google';
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ['latin'] });
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={inter.className}>
       <body>{children}</body>
     </html>
-  )
+  );
 }
 ```
 
@@ -218,7 +214,7 @@ Default to the Node.js runtime. Opt into Edge only when you need global low-late
 
 ```ts
 // Only add this when you have a specific reason
-export const runtime = 'edge'
+export const runtime = 'edge';
 ```
 
 Edge runtime does not support: Node.js built-ins, most npm packages, file system access, or `next/image` optimization. See [runtime-selection.md](./runtime-selection.md).
@@ -230,12 +226,12 @@ Edge runtime does not support: Node.js built-ins, most npm packages, file system
 ```tsx
 // Bad: no Suspense — the whole page falls back to client rendering
 export default function Page() {
-  return <SearchResults />
+  return <SearchResults />;
 }
 
 function SearchResults() {
-  const params = useSearchParams()  // CSR bailout here
-  return <>{/* ... */}</>
+  const params = useSearchParams(); // CSR bailout here
+  return <>{/* ... */}</>;
 }
 ```
 
@@ -246,7 +242,7 @@ export default function Page() {
     <Suspense fallback={<ResultsSkeleton />}>
       <SearchResults />
     </Suspense>
-  )
+  );
 }
 ```
 
@@ -257,8 +253,8 @@ See [suspense-boundaries.md](./suspense-boundaries.md) for the full list of hook
 ```ts
 // next.config.ts
 const nextConfig: NextConfig = {
-  output: 'standalone',  // required for Docker — copies only production files
-}
+  output: 'standalone', // required for Docker — copies only production files
+};
 ```
 
 Multi-instance deployments need a shared cache handler for ISR to work correctly across pods. See [self-hosting.md](./self-hosting.md).

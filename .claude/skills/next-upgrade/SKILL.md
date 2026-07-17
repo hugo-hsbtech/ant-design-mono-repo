@@ -39,11 +39,11 @@ npx @next/codemod@latest <transform> .
 
 Common transforms by version:
 
-| Version | Transform | What It Does |
-|---------|-----------|--------------|
-| v15 | `next-async-request-api` | Adds `await` to `params`, `searchParams`, `cookies()`, `headers()` |
-| v15 | `next-request-geo-ip` | Migrates `geo`/`ip` from `NextRequest` to `@vercel/functions` |
-| v15 | `next-dynamic-access-named-export` | Transforms `next/dynamic` named export access |
+| Version | Transform                          | What It Does                                                       |
+| ------- | ---------------------------------- | ------------------------------------------------------------------ |
+| v15     | `next-async-request-api`           | Adds `await` to `params`, `searchParams`, `cookies()`, `headers()` |
+| v15     | `next-request-geo-ip`              | Migrates `geo`/`ip` from `NextRequest` to `@vercel/functions`      |
+| v15     | `next-dynamic-access-named-export` | Transforms `next/dynamic` named export access                      |
 
 ## Update Dependencies
 
@@ -68,13 +68,13 @@ npm install @types/react@latest @types/react-dom@latest
 ```tsx
 // Before (v14)
 export default function Page({ params }: { params: { slug: string } }) {
-  return <h1>{params.slug}</h1>
+  return <h1>{params.slug}</h1>;
 }
 
 // After (v15)
 export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = await params
-  return <h1>{slug}</h1>
+  const { slug } = await params;
+  return <h1>{slug}</h1>;
 }
 ```
 
@@ -84,12 +84,12 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
 
 ```tsx
 // v14: cached by default
-fetch('/api/data')
+fetch('/api/data');
 
 // v15: opt in explicitly
-fetch('/api/data', { cache: 'force-cache' })
+fetch('/api/data', { cache: 'force-cache' });
 // or use revalidate
-fetch('/api/data', { next: { revalidate: 3600 } })
+fetch('/api/data', { next: { revalidate: 3600 } });
 ```
 
 ### Next.js 16
@@ -99,8 +99,8 @@ fetch('/api/data', { next: { revalidate: 3600 } })
 ```ts
 // next.config.ts — v16
 const nextConfig: NextConfig = {
-  cacheComponents: true,  // replaces experimental.ppr
-}
+  cacheComponents: true, // replaces experimental.ppr
+};
 ```
 
 See `next-cache-components` for full migration patterns from `unstable_cache` and `dynamic` exports.
@@ -116,6 +116,7 @@ npx tsc --noEmit
 ```
 
 Run the dev server and exercise the key paths in your app. Pay attention to:
+
 - Pages that use `params` or `searchParams` (v15 async APIs)
 - Components that read `cookies()` or `headers()` inside Server Components
 - Any `fetch` calls that previously relied on default caching behavior (v15)

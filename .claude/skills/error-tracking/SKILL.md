@@ -23,13 +23,13 @@ Error tracking works best when you capture at clear, consistent boundaries — n
 
 The natural capture points are:
 
-| Boundary | What to capture |
-|----------|----------------|
-| Global uncaught exception handler | All unhandled errors |
-| HTTP request handler | Request-scoped context (user, route, method) |
-| Background job / queue worker | Job ID, queue name, payload summary |
-| External API call | Status code, latency, endpoint |
-| Critical business operations | Operation name, input summary, outcome |
+| Boundary                          | What to capture                              |
+| --------------------------------- | -------------------------------------------- |
+| Global uncaught exception handler | All unhandled errors                         |
+| HTTP request handler              | Request-scoped context (user, route, method) |
+| Background job / queue worker     | Job ID, queue name, payload summary          |
+| External API call                 | Status code, latency, endpoint               |
+| Critical business operations      | Operation name, input summary, outcome       |
 
 Avoid catching-and-reporting inside utility functions or deep in the call stack — you lose the original context and flood the tracker with duplicates.
 
@@ -54,12 +54,14 @@ Set user context once per session or request, not on every capture call.
 Breadcrumbs are the trail of events before an error. They answer "what did the user do right before this crash."
 
 Good breadcrumbs:
+
 - Navigation events (route changes, page loads)
 - User interactions that trigger state changes (form submit, button click)
 - Key state transitions (auth flow steps, checkout steps)
 - Outbound HTTP calls with status codes
 
 Bad breadcrumbs (too noisy, remove or throttle):
+
 - Every render cycle
 - Polling requests
 - Internal log messages that aren't meaningful out of context
@@ -99,13 +101,13 @@ fingerprint: ['database-connection', error.code]
 
 Use severity consistently so alerts fire on the right things:
 
-| Level | When to use |
-|-------|-------------|
-| `fatal` | App cannot continue — process restart required |
-| `error` | User-visible failure, operation aborted |
+| Level     | When to use                                                     |
+| --------- | --------------------------------------------------------------- |
+| `fatal`   | App cannot continue — process restart required                  |
+| `error`   | User-visible failure, operation aborted                         |
 | `warning` | Degraded state, fallback used, operation succeeded with caveats |
-| `info` | Significant business event (not an error) |
-| `debug` | Development only — remove before production |
+| `info`    | Significant business event (not an error)                       |
+| `debug`   | Development only — remove before production                     |
 
 Never capture expected control flow (`404`, `401`, form validation errors) as `error` or `fatal`.
 
@@ -130,6 +132,7 @@ The goal of alerting is actionable signal. Common failure modes:
 **Too few alerts** — production breaks silently. Causes: overly aggressive `before-send` filters, wrong environment sampling.
 
 Good defaults:
+
 - Alert on new error types in the last 24 hours
 - Alert on error rate spike (% increase, not absolute count)
 - Alert on `fatal` and `error`, not `warning`

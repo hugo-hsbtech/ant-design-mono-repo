@@ -47,9 +47,7 @@ export const WithFilter: Story = {
         <AutoComplete
           {...args}
           filterOption={(inputValue, option) =>
-            (option?.value as string)
-              .toUpperCase()
-              .indexOf(inputValue.toUpperCase()) !== -1
+            (option?.value as string).toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
           }
         />
       </Form.Item>

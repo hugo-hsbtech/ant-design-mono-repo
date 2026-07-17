@@ -44,7 +44,11 @@ export const Range: Story = {
   render: () => (
     <Form layout="vertical" style={{ maxWidth: 420 }}>
       <Form.Item label="Price range">
-        <Slider range defaultValue={[20, 60]} ariaLabelForHandle={['Minimum price', 'Maximum price']} />
+        <Slider
+          range
+          defaultValue={[20, 60]}
+          ariaLabelForHandle={['Minimum price', 'Maximum price']}
+        />
       </Form.Item>
     </Form>
   ),
