@@ -1,5 +1,5 @@
-import { fileURLToPath } from "node:url";
-import { dirname } from "node:path";
+import { fileURLToPath } from 'node:url';
+import { dirname } from 'node:path';
 import type { StorybookConfig } from '@storybook/nextjs-vite';
 
 const config: StorybookConfig = {
@@ -13,9 +13,13 @@ const config: StorybookConfig = {
     '../../landing/src/**/*.stories.@(ts|tsx)',
     '../../site/src/**/*.stories.@(ts|tsx)',
   ],
-  addons: [getAbsolutePath("@storybook/addon-docs"), getAbsolutePath("@storybook/addon-a11y"), getAbsolutePath("@storybook/addon-vitest")],
+  addons: [
+    getAbsolutePath('@storybook/addon-docs'),
+    getAbsolutePath('@storybook/addon-a11y'),
+    getAbsolutePath('@storybook/addon-vitest'),
+  ],
   framework: {
-    name: getAbsolutePath("@storybook/nextjs-vite"),
+    name: getAbsolutePath('@storybook/nextjs-vite'),
     options: {},
   },
   core: {
