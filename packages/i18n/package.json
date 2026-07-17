@@ -1,6 +1,6 @@
 {
   "name": "@repo/i18n",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
   "type": "module",
   "sideEffects": false,
@@ -12,7 +12,10 @@
       "import": "./dist/index.js"
     }
   },
-  "files": ["dist", "messages"],
+  "files": [
+    "dist",
+    "messages"
+  ],
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
