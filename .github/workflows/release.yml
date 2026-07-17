@@ -45,9 +45,11 @@ jobs:
         # tags exist and the standard command computes each bump from commits.
         # --skip-publish: all packages are private; we tag + release + changelog
         # but never publish to npm (the publish phase errors without a target).
+        # --skip-publish implies non-interactive, so --yes is not used (they are
+        # mutually exclusive); CI is non-TTY so no prompt is shown.
         run: |
           if [ -n "$(git tag --list)" ]; then
-            pnpm nx release --yes --skip-publish
+            pnpm nx release --skip-publish
           else
-            pnpm nx release --yes --first-release --skip-publish
+            pnpm nx release --first-release --skip-publish
           fi
