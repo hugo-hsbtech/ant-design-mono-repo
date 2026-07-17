@@ -27,7 +27,7 @@ export function CTA({ title, description, primaryAction, secondaryAction }: CTAP
           {title}
         </Title>
         {description && (
-          <Paragraph style={{ color: token.colorWhite, opacity: 0.85, fontSize: token.fontSizeLG }}>
+          <Paragraph style={{ color: token.colorWhite, opacity: 0.9, fontSize: token.fontSizeLG }}>
             {description}
           </Paragraph>
         )}

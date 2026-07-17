@@ -81,6 +81,8 @@ export const Standalone: Story = {
 };
 
 export const Ribbon: Story = {
+  // Showcases antd's decorative ribbon colors, not guaranteed WCAG AA.
+  parameters: { a11y: { config: { rules: [{ id: 'color-contrast', enabled: false }] } } },
   render: () => (
     <Space size="large">
       <Badge.Ribbon text="New">

@@ -18,6 +18,12 @@ const meta: Meta<typeof Form> = {
   argTypes: {
     layout: { control: 'select', options: ['vertical', 'horizontal', 'inline'] },
   },
+  // A required Form.Item wrapping a Select makes antd put aria-required="true" on
+  // the `.ant-select` wrapper div, which axe rejects (the role is on a child, not
+  // the div). It's antd's Select+Form markup, not ours, so skip that rule.
+  parameters: {
+    a11y: { config: { rules: [{ id: 'aria-allowed-attr', enabled: false }] } },
+  },
   render: (args) => (
     <Form
       {...args}

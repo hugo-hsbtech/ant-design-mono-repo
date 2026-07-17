@@ -4,9 +4,9 @@ import { theme, type ThemeConfig } from 'antd';
 export const lightTheme: ThemeConfig = {
   token: {
     "colorPrimary": "#0066CC",
-    "colorSuccess": "#16A34A",
-    "colorWarning": "#D97706",
-    "colorError": "#DC2626",
+    "colorSuccess": "#166534",
+    "colorWarning": "#92400E",
+    "colorError": "#B91C1C",
     "colorInfo": "#0066CC",
     "motionDurationFast": "0.1s",
     "motionDurationMid": "0.2s",
@@ -18,7 +18,10 @@ export const lightTheme: ThemeConfig = {
     "fontSizeLG": 16,
     "lineHeight": 1.5715,
     "colorBgBase": "#FFFFFF",
-    "colorTextBase": "#141414"
+    "colorTextBase": "#141414",
+    "colorTextSecondary": "#404040",
+    "colorTextTertiary": "#525252",
+    "colorTextQuaternary": "#616161"
   },
   components: {
     "Button": {

@@ -56,7 +56,7 @@ export function AppSwitcher({ products, currentKey }: AppSwitcherProps) {
   );
   return (
     <Popover content={grid} trigger="click" placement="bottomRight">
-      <Button type="text" icon={<WaffleIcon />} aria-label="Trocar de produto" />
+      <Button type="text" icon={<WaffleIcon aria-hidden />} aria-label="Trocar de produto" />
     </Popover>
   );
 }

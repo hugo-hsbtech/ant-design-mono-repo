@@ -20,9 +20,11 @@ const dataSource: Project[] = [
   { key: '5', name: 'Orion', owner: 'Edsger Dijkstra', status: 'active', budget: 99000 },
 ];
 
+// Solid (white-on-dark) status colors instead of antd's tinted presets, which
+// render colored-text-on-tint below the 4.5:1 WCAG AA contrast threshold.
 const statusColor: Record<Project['status'], string> = {
-  active: 'green',
-  paused: 'gold',
+  active: '#166534',
+  paused: '#92400E',
   archived: 'default',
 };
 
@@ -78,6 +80,13 @@ export const RowSelection: Story = {
   args: {
     rowSelection: {
       type: 'checkbox',
+      // Selection checkboxes have no visible label; name them for the axe gate.
+      // antd forwards aria-* to the input at runtime but doesn't type it on the
+      // checkbox props, so cast to the expected return type.
+      getCheckboxProps: (record) =>
+        ({ 'aria-label': `Select ${record.name}` }) as unknown as ReturnType<
+          NonNullable<NonNullable<TableProps<Project>['rowSelection']>['getCheckboxProps']>
+        >,
     },
   },
 };

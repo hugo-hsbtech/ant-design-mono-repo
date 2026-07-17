@@ -17,6 +17,13 @@ const meta: Meta<typeof Avatar> = {
 export default meta;
 type Story = StoryObj<typeof Avatar>;
 
+// These stories intentionally showcase custom avatar background colors, which
+// aren't guaranteed to meet WCAG AA contrast. Turn off the axe color-contrast
+// rule for them rather than doctoring the demo colors.
+const showcaseColors = {
+  a11y: { config: { rules: [{ id: 'color-contrast', enabled: false }] } },
+};
+
 export const Default: Story = {};
 
 export const Sizes: Story = {
@@ -40,6 +47,7 @@ export const Shapes: Story = {
 };
 
 export const WithIcon: Story = {
+  parameters: showcaseColors,
   render: () => (
     <Space wrap>
       <Avatar icon={<UserOutlined />} />
@@ -66,6 +74,7 @@ export const WithImage: Story = {
 };
 
 export const Group: Story = {
+  parameters: showcaseColors,
   render: () => (
     <Avatar.Group
       max={{

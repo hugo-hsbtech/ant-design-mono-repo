@@ -6,6 +6,8 @@ const meta: Meta<typeof Progress> = {
   component: Progress,
   args: {
     percent: 60,
+    // The progressbar element needs an accessible name for the axe a11y gate.
+    'aria-label': 'Progresso',
   },
   argTypes: {
     type: { control: 'select', options: ['line', 'circle', 'dashboard'] },
