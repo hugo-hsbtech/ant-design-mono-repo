@@ -43,9 +43,11 @@ jobs:
         # On the very first run there are no `<project>@<version>` tags to diff
         # against, so nx needs --first-release to seed the baselines. After that,
         # tags exist and the standard command computes each bump from commits.
+        # --skip-publish: all packages are private; we tag + release + changelog
+        # but never publish to npm (the publish phase errors without a target).
         run: |
           if [ -n "$(git tag --list)" ]; then
-            pnpm nx release --yes
+            pnpm nx release --yes --skip-publish
           else
-            pnpm nx release --yes --first-release
+            pnpm nx release --yes --first-release --skip-publish
           fi
