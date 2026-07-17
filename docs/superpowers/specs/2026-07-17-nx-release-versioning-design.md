@@ -122,7 +122,8 @@ merge to main
        └─ for each project:
             read commits since <project>@<lastVersion>
             compute bump: feat→minor · fix/perf→patch · !|BREAKING→major
-              (0.x rule: first feat → 0.1.0)
+              (0.x rule: below 1.0.0 Nx shifts bumps down one rank —
+               feat→patch, breaking→minor)
             if no shippable commits → skip project
             else:
               rewrite package.json version

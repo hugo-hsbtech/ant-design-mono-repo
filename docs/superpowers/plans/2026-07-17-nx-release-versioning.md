@@ -12,7 +12,7 @@
 
 - Managed projects: **all 13 workspaces** (`apps/*` + `packages/*`), all currently `private` at `0.0.0`.
 - **No npm publish** — release artifact is `package.json` bump + `CHANGELOG.md` + git tag `<project>@<version>` + GitHub Release.
-- Versioning is **independent** per project, from Conventional Commits (`feat`→minor, `fix`/`perf`→patch, `!`/`BREAKING CHANGE`→major; 0.x rule: first `feat` → `0.1.0`).
+- Versioning is **independent** per project, from Conventional Commits (`feat`→minor, `fix`/`perf`→patch, `!`/`BREAKING CHANGE`→major). Below `1.0.0` Nx shifts bumps down one rank (`feat`→patch, breaking→minor) — verified empirically via `nx release --dry-run`.
 - Internal deps are `workspace:*` — ranges are not rewritten; dependents may still receive a version bump (`updateDependents: "auto"`, the default) so a lib change cascades to its consumers.
 - Turborepo remains the sole build/test runner; Nx config stays limited to the `release` block.
 - Node 20, pnpm `10.33.0`.
