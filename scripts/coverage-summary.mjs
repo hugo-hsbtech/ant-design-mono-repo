@@ -10,7 +10,7 @@
  *
  * In CI the table is appended to the GitHub Actions job summary.
  */
-import { readFileSync, existsSync, appendFileSync } from 'node:fs';
+import { readFileSync, existsSync, appendFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 const root = process.cwd();
@@ -76,6 +76,12 @@ lines.push('');
 const md = lines.join('\n');
 console.log(md);
 
+// GitHub Actions job summary (the run's summary page).
 if (process.env.GITHUB_STEP_SUMMARY) {
   appendFileSync(process.env.GITHUB_STEP_SUMMARY, md + '\n');
+}
+
+// Standalone file for downstream steps (e.g. posting a PR comment).
+if (process.env.COVERAGE_SUMMARY_FILE) {
+  writeFileSync(process.env.COVERAGE_SUMMARY_FILE, md + '\n');
 }
