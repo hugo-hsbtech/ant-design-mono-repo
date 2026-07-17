@@ -1,0 +1,26 @@
+{
+  "$schema": "./node_modules/nx/schemas/nx-schema.json",
+  "release": {
+    "projects": ["*"],
+    "projectsRelationship": "independent",
+    "releaseTag": {
+      "pattern": "{projectName}@{version}"
+    },
+    "version": {
+      "conventionalCommits": true
+    },
+    "changelog": {
+      "automaticFromRef": true,
+      "workspaceChangelog": false,
+      "projectChangelogs": {
+        "createRelease": "github"
+      }
+    },
+    "git": {
+      "commit": true,
+      "commitMessage": "chore(release): publish {version} [skip ci]",
+      "tag": true,
+      "push": true
+    }
+  }
+}
