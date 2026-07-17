@@ -18,6 +18,9 @@ const meta: Meta<typeof AutoComplete> = {
     placeholder: 'Type a fruit',
     onChange: fn(),
     style: { width: '100%' },
+    // antd Form.Item labels aren't wired to the control without a `name`, so give
+    // the input its own accessible name for the axe a11y gate.
+    'aria-label': 'Fruit',
   },
   argTypes: {
     size: { control: 'select', options: ['small', 'middle', 'large'] },

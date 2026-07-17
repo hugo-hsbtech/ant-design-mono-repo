@@ -11,6 +11,12 @@ export default defineConfig({
   plugins: [storybookTest({ configDir: join(dir, '.storybook') })],
   test: {
     name: 'storybook',
+    // Belt-and-suspenders for the real-browser runner: a transient dep-optimizer
+    // reload should be retried, never fail the run. a11y/render assertions are
+    // deterministic, so a genuine violation still fails every attempt. The
+    // deterministic fix (pre-bundling late-discovered deps) lives in
+    // .storybook/main.ts `viteFinal`, which reaches the browser optimizer.
+    retry: 2,
     browser: {
       enabled: true,
       provider: 'playwright',

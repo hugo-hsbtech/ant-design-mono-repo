@@ -39,7 +39,7 @@ export function Features({ heading, subheading, items, columns = 3 }: FeaturesPr
                   {item.icon}
                 </div>
               )}
-              <Title level={4} style={{ marginTop: token.marginSM }}>
+              <Title level={3} style={{ marginTop: token.marginSM, fontSize: token.fontSizeHeading4 }}>
                 {item.title}
               </Title>
               <Text type="secondary">{item.description}</Text>

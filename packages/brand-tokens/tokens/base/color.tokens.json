@@ -9,15 +9,18 @@
       }
     },
     "success": {
-      "$value": "#16A34A",
+      "$value": "#166534",
+      "$description": "Mais escuro que o green-600 (#16A34A) — o antd usa colorSuccess como texto sobre fundos claros (Typography success, alerts) e o green-600 fica em ~3.3:1, abaixo de 4.5:1.",
       "$extensions": { "com.plataforma.antd": { "token": "colorSuccess" } }
     },
     "warning": {
-      "$value": "#D97706",
+      "$value": "#92400E",
+      "$description": "Mais escuro que o amber-600 (#D97706) pelo mesmo motivo do success.",
       "$extensions": { "com.plataforma.antd": { "token": "colorWarning" } }
     },
     "error": {
-      "$value": "#DC2626",
+      "$value": "#B91C1C",
+      "$description": "Um tom mais escuro que o red-600 — o red-600 (#DC2626) fica abaixo de 4.5:1 em textos/ícones sobre fundos claros (ex.: menu de logout).",
       "$extensions": { "com.plataforma.antd": { "token": "colorError" } }
     },
     "info": {

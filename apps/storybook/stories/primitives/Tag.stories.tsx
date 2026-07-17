@@ -26,9 +26,17 @@ const meta: Meta<typeof Tag> = {
 export default meta;
 type Story = StoryObj<typeof Tag>;
 
+// These stories intentionally showcase antd's decorative preset/custom tag
+// palette, which is not guaranteed to meet WCAG AA contrast. Turn off the axe
+// color-contrast rule for them rather than doctoring antd's own colors.
+const showcaseColors = {
+  a11y: { config: { rules: [{ id: 'color-contrast', enabled: false }] } },
+};
+
 export const Default: Story = {};
 
 export const PresetColors: Story = {
+  parameters: showcaseColors,
   render: () => (
     <Space wrap>
       {['magenta', 'red', 'volcano', 'orange', 'gold', 'lime', 'green', 'cyan', 'blue', 'geekblue', 'purple'].map(
@@ -43,6 +51,7 @@ export const PresetColors: Story = {
 };
 
 export const CustomColors: Story = {
+  parameters: showcaseColors,
   render: () => (
     <Space wrap>
       <Tag color="#f50">#f50</Tag>
@@ -68,6 +77,7 @@ export const Closable: Story = {
 };
 
 export const WithIcons: Story = {
+  parameters: showcaseColors,
   render: () => (
     <Space wrap>
       <Tag icon={<TwitterOutlined />} color="#55acee">
@@ -84,6 +94,7 @@ export const WithIcons: Story = {
 };
 
 export const StatusColors: Story = {
+  parameters: showcaseColors,
   render: () => (
     <Space wrap>
       <Tag icon={<CheckCircleOutlined />} color="success">

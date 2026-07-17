@@ -41,7 +41,9 @@ export const WithToolbar: Story = {
         title: 'Status',
         dataIndex: 'status',
         render: (s: Project['status']) => (
-          <Tag color={s === 'active' ? 'green' : 'default'}>{s}</Tag>
+          // Solid green (white text) instead of the tinted 'green' preset, which
+          // falls below the 4.5:1 WCAG AA contrast threshold.
+          <Tag color={s === 'active' ? '#166534' : 'default'}>{s}</Tag>
         ),
       },
       { title: 'Responsável', dataIndex: 'owner' },

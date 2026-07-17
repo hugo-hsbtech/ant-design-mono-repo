@@ -8,6 +8,9 @@ const meta: Meta<typeof InputNumber> = {
   args: {
     defaultValue: 3,
     onChange: fn(),
+    // antd Form.Item labels aren't wired to the control without a `name`, so give
+    // the input its own accessible name for the axe a11y gate.
+    'aria-label': 'Quantity',
   },
   argTypes: {
     size: { control: 'select', options: ['small', 'middle', 'large'] },

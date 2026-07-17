@@ -17,6 +17,12 @@ const meta: Meta<typeof Skeleton> = {
       <Skeleton {...args} />
     </div>
   ),
+  // antd's Skeleton renders an empty <h3 class="ant-skeleton-title"> as the title
+  // placeholder, which axe flags as an empty heading. It's antd's loading markup,
+  // not real content, so skip that rule for the Skeleton stories.
+  parameters: {
+    a11y: { config: { rules: [{ id: 'empty-heading', enabled: false }] } },
+  },
 };
 
 export default meta;

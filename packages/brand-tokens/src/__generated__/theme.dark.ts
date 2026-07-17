@@ -4,9 +4,9 @@ import { theme, type ThemeConfig } from 'antd';
 export const darkTheme: ThemeConfig = {
   token: {
     "colorPrimary": "#0066CC",
-    "colorSuccess": "#16A34A",
-    "colorWarning": "#D97706",
-    "colorError": "#DC2626",
+    "colorSuccess": "#166534",
+    "colorWarning": "#92400E",
+    "colorError": "#B91C1C",
     "colorInfo": "#0066CC",
     "motionDurationFast": "0.1s",
     "motionDurationMid": "0.2s",
