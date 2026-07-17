@@ -17,6 +17,7 @@
     "test:e2e": "turbo run test:e2e",
     "test:coverage": "turbo run test:coverage",
     "coverage:report": "node ./scripts/coverage-summary.mjs",
+    "coverage:ratchet": "node ./scripts/coverage-ratchet.mjs",
     "build:storybook": "turbo run build:storybook",
     "gen": "turbo gen",
     "format": "prettier --write \"**/*.{ts,tsx,md,json}\"",
