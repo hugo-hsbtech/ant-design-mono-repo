@@ -44,7 +44,7 @@ jobs:
         with:
           path: ~/.cache/ms-playwright
           key: playwright-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
-      - run: pnpm exec playwright install --with-deps chromium
+      - run: pnpm --filter @repo/storybook exec playwright install --with-deps chromium
       - run: pnpm test:storybook
 
   e2e:
@@ -63,7 +63,7 @@ jobs:
         with:
           path: ~/.cache/ms-playwright
           key: playwright-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
-      - run: pnpm exec playwright install --with-deps chromium
+      - run: pnpm --filter web exec playwright install --with-deps chromium
       - run: pnpm build
       - run: pnpm test:e2e
 
