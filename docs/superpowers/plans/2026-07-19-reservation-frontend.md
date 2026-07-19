@@ -1137,6 +1137,8 @@ export function RoomsView({ hotel, rooms }: { hotel: Hotel; rooms: Room[] }) {
         }
         onClose={() => setDrawerOpen(false)}
         onSubmit={handleSubmit}
+        submitText="Save"
+        cancelText="Cancel"
       >
         <Form.Item
           name="number"
