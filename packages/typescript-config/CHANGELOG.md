@@ -1,3 +1,14 @@
+## 0.0.2 (2026-07-19)
+
+### 🚀 Features
+
+- **web:** Auth.js + multi-tenant routing + server-side RBAC (E4–E5) ([40a6d26](https://github.com/hugo-hsbtech/ant-design-mono-repo/commit/40a6d26))
+
+### ❤️ Thank You
+
+- Claude
+- Claude Opus 4.8
+
 ## 0.0.1 (2026-07-17)
 
 ### 🚀 Features

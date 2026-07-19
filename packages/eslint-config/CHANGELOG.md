@@ -1,3 +1,14 @@
+## 0.0.2 (2026-07-19)
+
+### 🚀 Features
+
+- **brand-tokens:** DTCG token source + Style Dictionary v4 pipeline (phase 1) ([ca9c634](https://github.com/hugo-hsbtech/ant-design-mono-repo/commit/ca9c634))
+
+### ❤️ Thank You
+
+- Claude
+- Claude Opus 4.8
+
 ## 0.0.1 (2026-07-17)
 
 ### 🚀 Features
