@@ -1,6 +1,6 @@
 'use client';
 import { ThemeProvider, type ThemeMode } from '@repo/design-system';
-import ptBR from 'antd/locale/pt_BR';
+import enUS from 'antd/locale/en_US';
 import { useCallback } from 'react';
 
 const ONE_YEAR = 60 * 60 * 24 * 365;
@@ -22,7 +22,7 @@ export function Providers({
   }, []);
 
   return (
-    <ThemeProvider defaultMode={initialMode} onModeChange={persist} locale={ptBR}>
+    <ThemeProvider defaultMode={initialMode} onModeChange={persist} locale={enUS}>
       {children}
     </ThemeProvider>
   );
