@@ -492,7 +492,7 @@ RESERVATION_API_TOKEN=dev-token
 ```tsx
 'use client';
 import { ThemeProvider, type ThemeMode } from '@repo/design-system';
-import ptBR from 'antd/locale/pt_BR';
+import enUS from 'antd/locale/en_US';
 import { useCallback } from 'react';
 
 const ONE_YEAR = 60 * 60 * 24 * 365;
@@ -514,14 +514,14 @@ export function Providers({
   }, []);
 
   return (
-    <ThemeProvider defaultMode={initialMode} onModeChange={persist} locale={ptBR}>
+    <ThemeProvider defaultMode={initialMode} onModeChange={persist} locale={enUS}>
       {children}
     </ThemeProvider>
   );
 }
 ```
 
-Note: if `ThemeProvider`'s `locale` prop rejects `pt_BR`'s type, pass `locale={ptBR as never}` or omit the `locale` prop — it only sets antd's built-in component copy (date pickers etc.), which this app does not use.
+Note: the antd `locale` sets built-in component copy (Popconfirm buttons, table empty state, pagination). This app is English, so pass `enUS` explicitly — do NOT use a Portuguese locale.
 
 - [ ] **Step 4: Write `src/app/layout.tsx`**
 
