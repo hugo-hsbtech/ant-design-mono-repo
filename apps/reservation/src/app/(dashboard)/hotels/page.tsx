@@ -1,5 +1,7 @@
-import { PageHeader } from '@repo/design-system';
+import { listHotels } from '@/lib/api';
+import { HotelsView } from './hotels-view';
 
-export default function HotelsPage() {
-  return <PageHeader title="Hotels" subtitle="Coming up in the next task" />;
+export default async function HotelsPage() {
+  const hotels = await listHotels();
+  return <HotelsView hotels={hotels} />;
 }

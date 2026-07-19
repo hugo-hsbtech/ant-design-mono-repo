@@ -4,6 +4,11 @@ import type { CoverageV8Options } from 'vitest/node';
 import { coverageConfig } from '../../packages/test-config/vitest.coverage';
 
 export default defineConfig({
+  // The app tsconfig sets `jsx: "preserve"` (Next.js compiles JSX via SWC at
+  // build time), but Vite/esbuild needs an explicit transform for tests.
+  esbuild: {
+    jsx: 'automatic',
+  },
   test: {
     globals: true,
     environment: 'jsdom',
