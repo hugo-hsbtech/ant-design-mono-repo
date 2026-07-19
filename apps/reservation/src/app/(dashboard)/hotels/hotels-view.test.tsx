@@ -40,5 +40,6 @@ describe('HotelsView', () => {
     expect(
       await screen.findByText('New hotel', { selector: '.ant-modal-title' }),
     ).toBeInTheDocument();
+    expect(await screen.findByRole('button', { name: 'Save' })).toBeInTheDocument();
   });
 });

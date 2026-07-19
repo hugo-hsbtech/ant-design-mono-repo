@@ -115,6 +115,8 @@ export function HotelsView({ hotels }: { hotels: Hotel[] }) {
         initialValues={editing ? { name: editing.name, address: editing.address } : undefined}
         onCancel={() => setFormOpen(false)}
         onSubmit={handleSubmit}
+        okText="Save"
+        cancelText="Cancel"
       >
         <Form.Item name="name" label="Name" rules={[{ required: true, message: 'Enter a name' }]}>
           <Input placeholder="e.g. Grand Hotel" />
