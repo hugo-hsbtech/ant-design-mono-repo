@@ -11,6 +11,7 @@ existing NestJS reservation API (`backend/apps/reservation`). It provides a CRUD
 for **hotels** and, nested under each hotel, a CRUD for **rooms**. It reuses the
 monorepo design system and Shell pattern (as in `apps/web`) but is built from
 scratch and scoped to hotels + rooms — no auth login, no org/RBAC, no next-intl.
+UI labels are in English (static strings).
 
 ## Backend API (already exists — not modified)
 
@@ -45,7 +46,7 @@ sibling to `web`/`landing`/`site`. Same stack as `web`: `@repo/design-system`
 (facade over antd v5), `@repo/brand-tokens`, `@repo/icons`, `@repo/utils`.
 
 Deliberately **excluded** to keep the sample lean: `next-auth` (no login),
-org/RBAC, `next-intl` (static pt-BR labels; a fixed antd locale is passed to
+org/RBAC, `next-intl` (static English labels; a fixed antd locale is passed to
 `ThemeProvider`).
 
 Dev port **3100** (backend defaults to 3000, `web` uses 3000).
@@ -58,9 +59,9 @@ Dev port **3100** (backend defaults to 3000, `web` uses 3000).
    `listHotels`, `getHotel`, `createHotel`, `updateHotel`, `deleteHotel`,
    `listRooms`, `createRoom`, `updateRoom`, `deleteRoom`. Throws a typed
    `ApiError { status: number; message: string }`, mapping:
-   - 401 → "Token de API inválido"
+   - 401 → "Invalid API token"
    - 404 → not found (page-level → `notFound()`)
-   - 409 → "Número de quarto já existe neste hotel"
+   - 409 → "Room number already exists in this hotel"
    - other non-2xx → generic message with status.
      Missing env at call time → clear thrown error.
 2. **`src/lib/types.ts`** — `Hotel`, `Room`, and `CreateHotelInput` /
@@ -78,13 +79,14 @@ server actions.
 
 - **`/`** → `redirect('/hotels')`.
 - **`/hotels`** — RSC calls `listHotels()` → `HotelsView` (client):
-  - `PageHeader` "Hotéis" + "Novo hotel" button.
-  - `DataTable<Hotel>`: columns name, address, room count, actions. Row action
-    "Quartos" links to `/hotels/[id]/rooms`; edit + `Popconfirm` delete.
+  - `PageHeader` "Hotels" + "New hotel" button.
+  - `DataTable<Hotel>`: columns name, address, actions. Row action "Rooms"
+    links to `/hotels/[id]/rooms`; edit + `Popconfirm` delete. (No room-count
+    column — `GET /hotels` does not include it and we avoid N extra requests.)
   - `FormModal` create/edit with fields name (required) + address (optional).
 - **`/hotels/[hotelId]/rooms`** — RSC calls `getHotel(hotelId)` (→ `notFound()`
   on 404) + `listRooms(hotelId)` → `RoomsView` (client):
-  - `PageHeader` with the hotel name, a back link to `/hotels`, "Novo quarto".
+  - `PageHeader` with the hotel name, a back link to `/hotels`, "New room".
   - `DataTable<Room>`: columns number, type, capacity, actions (edit + delete).
   - `FormDrawer` create/edit: number (required), type (optional), capacity
     (optional positive integer). A 409 on save surfaces the "number already
@@ -94,7 +96,7 @@ server actions.
 
 - **`src/components/shell/Shell.tsx`** (simplified from `web`): `AppShell` with
   - header = `ProductBranding "Reservation"` + `ThemeToggle`,
-  - sidebar = `Menu` (mode `inline`) with one item **Hotéis** → `/hotels`.
+  - sidebar = `Menu` (mode `inline`) with one item **Hotels** → `/hotels`.
 - **`app/layout.tsx`**: `AntdRegistry` + `Providers` (ThemeProvider seeded from a
   `theme` cookie for no light→dark flash, same approach as `web`), brand CSS.
 - **`app/(dashboard)/layout.tsx`**: wraps children in `Shell`. Hotels and rooms
@@ -116,7 +118,7 @@ copied into this app (small, app-local, like `web`) rather than shared.
   set, request URLs/methods/bodies are correct, and error mapping (401 → invalid
   token, 404, 409 → duplicate). Uses the repo's `@repo/test-config` like `web`.
 - **`src/app/(dashboard)/hotels/hotels-view.test.tsx`**: testing-library render —
-  table shows seeded hotel rows and the "Novo hotel" modal opens on click.
+  table shows seeded hotel rows and the "New hotel" modal opens on click.
 - Playwright e2e is out of scope for this sample (can be added later, `web` has
   the pattern).
 
