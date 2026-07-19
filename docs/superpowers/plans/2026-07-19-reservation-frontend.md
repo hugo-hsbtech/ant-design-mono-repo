@@ -453,6 +453,7 @@ Boots the app with the design-system Shell and a placeholder hotels route. Deliv
 - Create: `apps/reservation/src/app/providers.tsx`
 - Create: `apps/reservation/src/app/page.tsx`
 - Create: `apps/reservation/src/components/ThemeToggle.tsx`
+- Create: `apps/reservation/src/components/product/ProductBranding.tsx` (copied from `web`)
 - Create: `apps/reservation/src/components/shell/Shell.tsx`
 - Create: `apps/reservation/src/app/(dashboard)/layout.tsx`
 - Create: `apps/reservation/src/app/(dashboard)/hotels/page.tsx` (temporary placeholder, replaced in Task 3)
@@ -581,8 +582,9 @@ export function ThemeToggle() {
 ```tsx
 'use client';
 import { usePathname, useRouter } from 'next/navigation';
-import { AppShell, Flex, Menu, ProductBranding, Space } from '@repo/design-system';
+import { AppShell, Flex, Menu, Space } from '@repo/design-system';
 import { HomeOutlined } from '@ant-design/icons';
+import { ProductBranding } from '@/components/product/ProductBranding';
 import { ThemeToggle } from '@/components/ThemeToggle';
 
 export function Shell({ children }: { children: React.ReactNode }) {
@@ -618,7 +620,54 @@ export function Shell({ children }: { children: React.ReactNode }) {
 }
 ```
 
-Note: `ProductBranding` is exported from `@repo/design-system` (verify with `grep ProductBranding packages/design-system/src/**/index.ts`). If it is NOT exported there, copy `apps/web/src/components/product/ProductBranding.tsx` into `apps/reservation/src/components/product/ProductBranding.tsx` and import it from `@/components/product/ProductBranding` instead.
+`ProductBranding` is NOT exported from `@repo/design-system` (confirmed) — it is app-local in `web`. Create `apps/reservation/src/components/product/ProductBranding.tsx` with this content (copied verbatim from `apps/web/src/components/product/ProductBranding.tsx`):
+
+```tsx
+'use client';
+import { Space, Typography, theme } from '@repo/design-system';
+import type { ReactNode } from 'react';
+
+const { Text } = Typography;
+
+export interface ProductBrandingProps {
+  name: string;
+  /** Optional custom logo; falls back to a brand-colored mark. */
+  logo?: ReactNode;
+  href?: string;
+}
+
+/** Product identity in the top nav (logo + name). */
+export function ProductBranding({ name, logo, href }: ProductBrandingProps) {
+  const { token } = theme.useToken();
+  const mark = logo ?? (
+    <span
+      aria-hidden
+      style={{
+        width: 24,
+        height: 24,
+        borderRadius: token.borderRadius,
+        background: token.colorPrimary,
+        display: 'inline-block',
+      }}
+    />
+  );
+  const content = (
+    <Space align="center" size="small">
+      {mark}
+      <Text strong style={{ fontSize: token.fontSizeLG }}>
+        {name}
+      </Text>
+    </Space>
+  );
+  return href ? (
+    <a href={href} style={{ color: 'inherit', textDecoration: 'none' }}>
+      {content}
+    </a>
+  ) : (
+    content
+  );
+}
+```
 
 - [ ] **Step 7: Write `src/app/(dashboard)/layout.tsx`**
 
@@ -1254,8 +1303,8 @@ git commit -m "docs(reservation): README and run instructions"
 - Registration (package.json/next.config/tsconfig/eslint), `.env.example`, README, port 3100 → Tasks 1, 2, 5. ✔
 - English labels, token never in browser → enforced across tasks. ✔
 
-**Open verification points (resolve during execution, not blockers):**
+**Resolved before execution:**
 
-- `ProductBranding` export location — Task 2 Step 6 note gives the fallback (copy from `web`).
-- `ThemeProvider` `locale` prop typing for `antd/locale/pt_BR` — Task 2 Step 3 note gives the fallback (cast or omit).
+- `ProductBranding` is app-local (not in `@repo/design-system`) — Task 2 Step 6 creates it in-app.
+- `useThemeMode`, `ThemeProvider` (with `locale?: ConfigProviderProps['locale']`), and `InputNumber` (via the antd facade) are all exported from `@repo/design-system` — confirmed.
 - Coverage thresholds are scoped to `src/lib/**`; if the gate still complains, lower them — coverage is informational for this sample.
